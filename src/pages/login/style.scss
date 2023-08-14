@@ -1,0 +1,40 @@
+.login-page {
+  height: 100vh;
+  overflow-y: auto;
+  position: relative;
+  background-color: #faf0ff;
+
+  .box-light {
+    margin-top: -100px;
+    border-radius: 20px;
+    background-color: #1c212d;
+    color: #fff;
+    box-shadow: 0 0px 10px rgba(0, 0, 0, 0.1);
+
+    label {
+      color: #fff;
+    }
+  }
+
+  .login-title {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 2rem;
+    text-align: center;
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    margin-bottom: 10px;
+
+    .hello {
+      color: #000;
+    }
+    .task {
+      color: #ff7875;
+    }
+  }
+
+  .ant-form-item {
+    margin-bottom: 10px;
+  }
+}
