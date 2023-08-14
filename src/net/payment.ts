@@ -1,5 +1,6 @@
 import { QueryOptions } from "@tanstack/react-query";
 import axios from "axios";
+import { CreateAdjustmentInputs } from "../components/payment/adjustment/create";
 
 export const fetchBonus = async () => {
   const response = await axios.get("/bonus/list");
@@ -23,6 +24,11 @@ export const createTransactionFromFile = async (data: FormData) => {
 
 export const fetchAdjustments = async () => {
   const response = await axios.get("/adjustment/list");
+  return response.data;
+};
+
+export const createAdjustment = async (data: CreateAdjustmentInputs) => {
+  const response = await axios.post("/adjustment", data);
   return response.data;
 };
 
