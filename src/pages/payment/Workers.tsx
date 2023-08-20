@@ -1,7 +1,7 @@
-import { Table, Drawer, Image, Space, Button } from "antd";
+import { Table, Drawer, Image, Space, Button, Tag } from "antd";
 import { useState } from "react";
 import WorkerProfile from "../worker/Profile";
-import { WorkerType } from "../../utils/types";
+import { PaymentWorkerListItemType } from "../../utils/types";
 import { ExpandOutlined } from "@ant-design/icons";
 import { downloadWorkerPayments, fetchWorkerPayments } from "../../net/payment";
 import { CustomError } from "../../utils/errors";
@@ -11,17 +11,7 @@ import { useInputSearch } from "../../lib/searching.hooks";
 import { defaultPagination } from "../../utils/pagination";
 import { SorterResult } from "antd/es/table/interface";
 import UploadPayment from "../../components/payment/transaction/upload-payment";
-
-const objToQuery = (obj) => {
-  const hasValue = [];
-  for (const key in obj) {
-    if (obj[key]) {
-      hasValue.push([key, obj[key]]);
-    }
-  }
-  const query = new URLSearchParams(hasValue).toString();
-  return query;
-};
+import { objToQuery } from "../../utils/func";
 
 export default function PaymentWorkers() {
   const [workerProfileId, setWorkerProfileId] = useState<number | null>(null);
@@ -38,11 +28,12 @@ export default function PaymentWorkers() {
   });
 
   const { isSuccess, data, isLoading, isError, error } = useQuery<
-    WorkerType[],
+    PaymentWorkerListItemType[],
     CustomError
   >({
     queryKey: [`/worker/payments?${objToQuery(params)}`],
     queryFn: fetchWorkerPayments,
+    retry: false,
   });
   const mutation = useMutation(downloadWorkerPayments);
   const { getColumnSearchProps } = useInputSearch();
@@ -51,7 +42,7 @@ export default function PaymentWorkers() {
     {
       title: "",
       dataIndex: "id",
-      key: "id",
+      key: "pid",
       render: (id: number) => (
         <ExpandOutlined
           style={{ fontSize: "20px" }}
@@ -60,13 +51,13 @@ export default function PaymentWorkers() {
       ),
     },
     {
-      title: "Worker ID",
-      dataIndex: "pid",
-      key: "pid",
-      ...getColumnSearchProps("pid"),
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+      ...getColumnSearchProps("id"),
     },
     {
-      title: "Worker Image",
+      title: "Image",
       dataIndex: "image",
       key: "image",
       render: (image: string) => (
@@ -82,34 +73,34 @@ export default function PaymentWorkers() {
       ),
     },
     {
-      title: "Worker Name",
+      title: "Name",
       dataIndex: "name",
       key: "name",
       ...getColumnSearchProps("name"),
     },
     {
-      title: "Worker Phone",
+      title: "Phone",
       dataIndex: "phone",
       key: "phone",
+      width: "120px",
       ...getColumnSearchProps("phone"),
     },
     {
       title: "Nagad",
       dataIndex: "nagad",
       key: "nagad",
+      width: "120px",
       render: (
         text: string,
         { active_account }: { active_account: string }
       ) => (
-        <div
-          style={{
-            color: ["nagad", "নগদ"].includes(active_account)
-              ? "green"
-              : "black",
-          }}
+        <Tag
+          color={
+            ["nagad", "নগদ"].includes(active_account) ? "geekblue" : "gray"
+          }
         >
           {text}
-        </div>
+        </Tag>
       ),
       ...getColumnSearchProps("nagad"),
     },
@@ -117,35 +108,35 @@ export default function PaymentWorkers() {
       title: "Bkash",
       dataIndex: "bkash",
       key: "bkash",
+      width: "120px",
       render: (
         text: string,
         { active_account }: { active_account: string }
       ) => (
-        <div
-          style={{
-            color: ["bkash", "বিকাশ"].includes(active_account)
-              ? "green"
-              : "red",
-          }}
+        <Tag
+          color={
+            ["bkash", "বিকাশ"].includes(active_account) ? "geekblue" : "gray"
+          }
         >
           {text}
-        </div>
+        </Tag>
       ),
       ...getColumnSearchProps("bkash"),
     },
     {
-      title: "Total Earning",
-      dataIndex: "total_order_amount",
-      key: "total_order_amount",
-      sorter: (a: WorkerType, b: WorkerType) =>
-        a.total_order_amount - b.total_order_amount,
+      title: "Commission",
+      dataIndex: "total_commission",
+      key: "total_commission",
+      sorter: (a: PaymentWorkerListItemType, b: PaymentWorkerListItemType) =>
+        a.total_commission - b.total_commission,
       render: (amount: number = 0) => amount.toFixed(0),
     },
     {
       title: "Total Bonus",
       dataIndex: "total_bonus",
       key: "total_bonus",
-      sorter: (a: WorkerType, b: WorkerType) => a.total_bonus - b.total_bonus,
+      sorter: (a: PaymentWorkerListItemType, b: PaymentWorkerListItemType) =>
+        a.total_bonus - b.total_bonus,
       render: (bonus: number = 0) => bonus.toFixed(0),
     },
     {
@@ -158,14 +149,16 @@ export default function PaymentWorkers() {
       title: "Total Paid",
       dataIndex: "total_paid",
       key: "total_paid",
-      sorter: (a: WorkerType, b: WorkerType) => a.total_paid - b.total_paid,
+      sorter: (a: PaymentWorkerListItemType, b: PaymentWorkerListItemType) =>
+        a.total_paid - b.total_paid,
       render: (paid: number = 0) => paid.toFixed(0),
     },
     {
       title: "Payable",
       dataIndex: "payable",
       key: "payable",
-      sorter: (a: WorkerType, b: WorkerType) => a.payable - b.payable,
+      sorter: (a: PaymentWorkerListItemType, b: PaymentWorkerListItemType) =>
+        a.payable - b.payable,
       render: (payable: number = 0) => payable.toFixed(0),
     },
   ];
@@ -191,7 +184,11 @@ export default function PaymentWorkers() {
         dataSource={isSuccess ? data : []}
         scroll={{ x: 1000, y: "calc(100vh - 240px)" }}
         pagination={defaultPagination}
-        onChange={(pagination, filters, sorter: SorterResult<WorkerType>) => {
+        onChange={(
+          pagination,
+          filters,
+          sorter: SorterResult<PaymentWorkerListItemType>
+        ) => {
           const tempParams = { ...params };
           tempParams.limit = pagination.pageSize;
           tempParams.offset = (pagination.current - 1) * pagination.pageSize;

@@ -22,8 +22,8 @@ export const createTransactionFromFile = async (data: FormData) => {
   return response.data;
 };
 
-export const fetchAdjustments = async () => {
-  const response = await axios.get("/adjustment/list");
+export const fetchAdjustments = async ({ queryKey: [path] }: QueryOptions) => {
+  const response = await axios.get(path as string);
   return response.data;
 };
 

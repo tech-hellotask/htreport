@@ -10,7 +10,7 @@ export type FileType = {
   uid: string;
 };
 
-export interface WorkerType {
+export interface PaymentWorkerListItemType {
   id: number;
   pid?: number;
   name: string;
@@ -22,10 +22,8 @@ export interface WorkerType {
   total_paid: number;
   total_bonus: number;
   total_adjustment: number;
-  total_order_amount: number;
+  total_commission: number;
   payable: number;
-  created_at?: string;
-  updated_at?: string;
 }
 
 export interface AdjustmentType {
@@ -54,6 +52,26 @@ export interface BonusType {
   added_by_id: number;
   created_at?: string;
   updated_at?: string;
+}
+
+export interface OrderListItemType {
+  id: number;
+  type: string;
+  customer_id: number;
+  service_id: number;
+  service_name: string;
+  status: string;
+  payment_status: string;
+  area_id: number;
+  created_at: string;
+  work_hour: number;
+  rate: number;
+  regular_price: number;
+  discount: number;
+  vat: number;
+  service_charge: number;
+  final_price: number;
+  refund: number;
 }
 
 export interface OrderType {

@@ -15,9 +15,13 @@ export const debounce = <F extends (...args: any[]) => any>(
   return debounced as (...args: Parameters<F>) => ReturnType<F>;
 };
 
-// Usage
-// const debounceCallback = () => {
-//   console.log("Debounce");
-// };
-
-// debounce<typeof debounceCallback>(debounceCallback, 500);
+export const objToQuery = (obj) => {
+  const hasValue = [];
+  for (const key in obj) {
+    if (obj[key]) {
+      hasValue.push([key, obj[key]]);
+    }
+  }
+  const query = new URLSearchParams(hasValue).toString();
+  return query;
+};
