@@ -8,17 +8,17 @@ export const fetchBonus = async () => {
 };
 
 export const fetchTransactions = async () => {
-  const response = await axios.get("/transaction/list");
+  const response = await axios.get("/payment/list");
   return response.data;
 };
 
 export const transactionDetailsFromFile = async (data: FormData) => {
-  const response = await axios.post("/transaction/details", data);
+  const response = await axios.post("/payment/status", data);
   return response.data;
 };
 
 export const createTransactionFromFile = async (data: FormData) => {
-  const response = await axios.post("/transaction/file", data);
+  const response = await axios.post("/payment/bulk", data);
   return response.data;
 };
 
@@ -32,7 +32,17 @@ export const createAdjustment = async (data: CreateAdjustmentInputs) => {
   return response.data;
 };
 
-export const fetchWorkerPayments = async ({
+export const fetchPaymentLog = async ({ queryKey: [path] }: QueryOptions) => {
+  const response = await axios.get(path as string);
+  return response.data;
+};
+
+export const closePaymentLog = async (id: number) => {
+  const response = await axios.put(`/payment/log/${id}`);
+  return response.data;
+};
+
+export const fetchPaymentPayable = async ({
   queryKey: [path],
 }: QueryOptions) => {
   const response = await axios.get(path as string);
@@ -40,12 +50,9 @@ export const fetchWorkerPayments = async ({
 };
 
 export const downloadWorkerPayments = async (account: string) => {
-  const response = await axios.get(
-    `/worker/payable-accounts?account=${account}`,
-    {
-      responseType: "arraybuffer",
-    }
-  );
+  const response = await axios.get(`/payment/init?account=${account}`, {
+    responseType: "arraybuffer",
+  });
 
   const url = URL.createObjectURL(
     new Blob([response.data], {

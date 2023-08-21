@@ -25,3 +25,81 @@ export const objToQuery = (obj) => {
   const query = new URLSearchParams(hasValue).toString();
   return query;
 };
+
+type Segment = {
+  title?: string;
+  header: { key: string; title: string }[];
+  data: any[];
+};
+
+export function downloadCsv(segments: Segment[], filename = "export") {
+  const a = document.createElement("a");
+
+  const text = segments
+    .map((segment) => {
+      const { header = [], data = [], title = "" } = segment;
+
+      const keys = header.map((s) => s.key);
+      const segHeader = header.map((s) => s.title).join(",") + "\n";
+
+      const segBody = data
+        .map((item) => {
+          return keys
+            .map((k) => {
+              let v = item[k] ?? "";
+              if (typeof v === "boolean") v = v ? "Yes" : "No";
+              return v;
+            })
+            .join(",");
+        })
+        .join("\n");
+
+      return title + "\n " + segHeader + segBody;
+    })
+    .join("\n \n");
+
+  a.href = "data:application/octet-stream, " + encodeURIComponent(text);
+  a.download = `${filename}.csv`;
+  a.click();
+}
+
+export function downloadCsvFromText(text, name) {
+  const a = document.createElement("a");
+  a.href = "data:application/octet-stream, " + encodeURIComponent(text);
+  a.download = `${name}.csv`;
+  a.click();
+}
+
+export function localDateTime(date) {
+  if (!date) return "-";
+  return new Date(date).toLocaleString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  });
+}
+
+export function getTimeAgo(date: string | number | Date) {
+  date = new Date(date).getTime();
+  const currentTime = new Date().getTime();
+  const timeDiff = Math.abs(currentTime - date);
+  const seconds = Math.floor(timeDiff / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+
+  if (seconds < 60) {
+    return seconds + " sec ago";
+  } else if (minutes < 60) {
+    return minutes + " min ago";
+  } else if (hours < 24) {
+    return hours + " hour ago";
+  } else if (days < 7) {
+    return days + " day ago";
+  } else {
+    return localDateTime(date); // Return the date in a different format if it's older than 7 days
+  }
+}

@@ -20,7 +20,7 @@ export default function WorkerProfileInfo({ worker }: { worker: WorkerType }) {
         <Row gutter={[24, 10]}>
           <Col span={8} md={24}>
             <div className="image">
-              <img src={worker.image} alt="" />
+              <img src={worker?.image} alt="" />
             </div>
           </Col>
           <Col span={8} md={12} xl={24}>
@@ -39,7 +39,7 @@ export default function WorkerProfileInfo({ worker }: { worker: WorkerType }) {
             <div className="account">
               <Item
                 label="Total Order Amount"
-                value={worker.total_order_amount.toString()}
+                value={worker.commission.toString()}
               />
               <Item label="Total Bonus" value={worker.total_bonus.toString()} />
               <Item

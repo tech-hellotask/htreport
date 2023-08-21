@@ -23,3 +23,8 @@ export const searchWorker = async ({ queryKey }: QueryOptions) => {
   const response = await axios.get(`${path}?${value.by}=${value.value}`);
   return response.data;
 };
+
+export const fetchWorkerList = async ({ queryKey: [path] }: QueryOptions) => {
+  const response = await axios.get(path as string);
+  return response.data;
+};

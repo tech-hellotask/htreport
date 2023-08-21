@@ -1,5 +1,4 @@
-import { ReactNode, useState } from "react";
-import { Col, DatePicker, Row, Space, Table, Tag } from "antd";
+import { Col, Space, Table } from "antd";
 import { styled } from "styled-components";
 import { WorkerLedgerType, WorkerLedgerTypeItem } from "../../../utils/types";
 import { CustomError } from "../../../utils/errors";
@@ -65,17 +64,11 @@ const columns = () => {
 };
 
 export default function WorkerLedger({ id }: { id: string | number }) {
-  const [date, setDate] = useState([]);
   const { isLoading, data, isError, error, isSuccess } = useQuery<
     WorkerLedgerType,
     CustomError
   >({
-    queryKey: [
-      `/worker/${id}/ledger?${
-        date.length > 0 ? `startDate=${date[0]}&endDate=${date[1]}` : ""
-      }`,
-      id,
-    ],
+    queryKey: [`/worker/${id}/ledger`, id],
     queryFn: getWorkerLedgerById,
   });
 
@@ -85,7 +78,7 @@ export default function WorkerLedger({ id }: { id: string | number }) {
       <Table
         loading={isLoading}
         columns={columns()}
-        dataSource={isSuccess ? data.items : []}
+        dataSource={isSuccess && data && data.items ? data.items : []}
         scroll={{
           y: "calc(100vh - 220px)",
           x: "500px",

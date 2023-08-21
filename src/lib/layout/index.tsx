@@ -7,18 +7,9 @@ import {
   // VideoCameraOutlined,
 } from "@ant-design/icons";
 import { NavLink } from "react-router-dom";
+import { MenuItemType } from "../../utils/types";
 
-type MenuItemType = {
-  key: string;
-  icon: React.ReactNode;
-  label: string | React.ReactNode;
-  children?: MenuItemType[];
-  type?: "group" | "item";
-  link?: string;
-  title?: string;
-};
-
-const getMenuItem = (item: MenuItemType): MenuItemType => {
+export const getMenuItem = (item: MenuItemType): MenuItemType => {
   return {
     key: item.key,
     icon: item.icon,
@@ -43,18 +34,33 @@ const menuItems = [
     label: "Home",
     link: "/",
   },
-  // {
-  //   key: "report",
-  //   icon: <VideoCameraOutlined />,
-  //   label: "Reports",
-  //   link: "/reports",
-  // },
   {
     key: "users",
     icon: <UploadOutlined />,
     label: "Users",
     link: "/users",
     title: "Users",
+  },
+  {
+    key: "workers",
+    icon: <UploadOutlined />,
+    label: "Workers",
+    children: [
+      {
+        key: "worker_create",
+        icon: <OrderedListOutlined />,
+        label: "Add New",
+        link: "/worker/create",
+        title: "Worker > Create",
+      },
+      {
+        key: "worker_list",
+        icon: <OrderedListOutlined />,
+        label: "List",
+        link: "/worker/list",
+        title: "Worker > List",
+      },
+    ],
   },
   {
     key: "payment",
@@ -64,9 +70,9 @@ const menuItems = [
       {
         key: "payment_workers",
         icon: <OrderedListOutlined />,
-        label: "Workers",
-        link: "/payment/workers",
-        title: "Payment > Workers",
+        label: "Payable",
+        link: "/payment/payable",
+        title: "Payment > Payable",
       },
       {
         key: "payment_adjustment",
@@ -98,13 +104,13 @@ const menuItems = [
       },
     ],
   },
-  // {
-  //   key: "service",
-  //   icon: <UploadOutlined />,
-  //   label: "Service",
-  //   link: "/service",
-  //   title: "Services",
-  // },
+  {
+    key: "service",
+    icon: <UploadOutlined />,
+    label: "Service",
+    link: "/service",
+    title: "Services",
+  },
 ].map((item) => getMenuItem(item));
 
 export const LayoutContext = createContext<LayoutProps>({} as LayoutProps);

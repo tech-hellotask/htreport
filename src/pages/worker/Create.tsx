@@ -5,7 +5,7 @@ import WorkerPaymentMethod from "../../components/worker/PaymentMenthod";
 import WorkerUtilsForm from "../../components/worker/UtilsForm";
 import { Row, Col } from "antd";
 
-export default function Worker() {
+export default function CreateWorker() {
   return (
     <div>
       <Row gutter={[24, 24]}>

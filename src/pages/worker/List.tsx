@@ -1,19 +1,19 @@
-import { Table, Drawer, Image, Space, Button, Tag } from "antd";
+import { Table, Drawer, Image, Tag } from "antd";
 import { useState } from "react";
-import WorkerProfile from "../worker/Profile";
+import WorkerProfile from "./Profile";
 import { PaymentWorkerListItemType } from "../../utils/types";
 import { ExpandOutlined } from "@ant-design/icons";
-import { downloadWorkerPayments, fetchWorkerPayments } from "../../net/payment";
+import { fetchWorkerList } from "../../net/worker";
 import { CustomError } from "../../utils/errors";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { ErrorAlert } from "../../lib/Alerts";
 import { useInputSearch } from "../../lib/searching.hooks";
 import { defaultPagination } from "../../utils/pagination";
 import { SorterResult } from "antd/es/table/interface";
-import UploadPayment from "../../components/payment/transaction/upload-payment";
 import { objToQuery } from "../../utils/func";
+import WorkerMenu from "../../components/menu/worker";
 
-export default function PaymentWorkers() {
+export default function WorkerList() {
   const [workerProfileId, setWorkerProfileId] = useState<number | null>(null);
   const [params, setParams] = useState({
     limit: 100,
@@ -31,11 +31,10 @@ export default function PaymentWorkers() {
     PaymentWorkerListItemType[],
     CustomError
   >({
-    queryKey: [`/worker/payments?${objToQuery(params)}`],
-    queryFn: fetchWorkerPayments,
+    queryKey: [`/worker?${objToQuery(params)}`],
+    queryFn: fetchWorkerList,
     retry: false,
   });
-  const mutation = useMutation(downloadWorkerPayments);
   const { getColumnSearchProps } = useInputSearch();
 
   const columns = [
@@ -55,6 +54,7 @@ export default function PaymentWorkers() {
       dataIndex: "id",
       key: "id",
       ...getColumnSearchProps("id"),
+      render: (id: number, { name }) => <WorkerMenu id={id} name={name} />,
     },
     {
       title: "Image",
@@ -76,7 +76,13 @@ export default function PaymentWorkers() {
       title: "Name",
       dataIndex: "name",
       key: "name",
+      width: "160px",
       ...getColumnSearchProps("name"),
+      render: (name: string, { id }) => (
+        <WorkerMenu id={id} name={name}>
+          {name}
+        </WorkerMenu>
+      ),
     },
     {
       title: "Phone",
@@ -127,30 +133,26 @@ export default function PaymentWorkers() {
       title: "Commission",
       dataIndex: "total_commission",
       key: "total_commission",
-      sorter: (a: PaymentWorkerListItemType, b: PaymentWorkerListItemType) =>
-        a.total_commission - b.total_commission,
+      width: "120px",
       render: (amount: number = 0) => amount.toFixed(0),
     },
     {
       title: "Total Bonus",
       dataIndex: "total_bonus",
       key: "total_bonus",
-      sorter: (a: PaymentWorkerListItemType, b: PaymentWorkerListItemType) =>
-        a.total_bonus - b.total_bonus,
       render: (bonus: number = 0) => bonus.toFixed(0),
     },
     {
-      title: "Total Adjustment",
+      title: "Adjustment",
       dataIndex: "total_adjustment",
       key: "total_adjustment",
+      width: "120px",
       render: (adjustment: number = 0) => adjustment.toFixed(0),
     },
     {
       title: "Total Paid",
       dataIndex: "total_paid",
       key: "total_paid",
-      sorter: (a: PaymentWorkerListItemType, b: PaymentWorkerListItemType) =>
-        a.total_paid - b.total_paid,
       render: (paid: number = 0) => paid.toFixed(0),
     },
     {
@@ -166,18 +168,6 @@ export default function PaymentWorkers() {
   return (
     <div>
       <ErrorAlert isError={isError} error={error} />
-      <div className="flex-between" style={{ marginBottom: "10px" }}>
-        <div></div>
-        <Space>
-          <UploadPayment />
-          <Button onClick={() => mutation.mutate("nagad")} type="primary">
-            Nagad
-          </Button>
-          <Button onClick={() => mutation.mutate("bkash")} type="primary">
-            Bkash
-          </Button>
-        </Space>
-      </div>
       <Table
         loading={isLoading}
         columns={columns}

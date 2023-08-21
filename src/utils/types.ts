@@ -1,3 +1,13 @@
+export interface MenuItemType {
+  key: string;
+  icon: React.ReactNode;
+  label: string | React.ReactNode;
+  children?: MenuItemType[];
+  type?: "group" | "item";
+  link?: string;
+  title?: string;
+}
+
 export type FileType = {
   lastModified: number;
   lastModifiedDate: Date;
@@ -138,7 +148,7 @@ export interface WorkerLedgerTypeItem {
 
 export interface WorkerLedgerType {
   end_date: string;
-  items: WorkerLedgerTypeItem[];
+  items?: WorkerLedgerTypeItem[];
   start_date: string;
   debit: number;
   credit: number;
@@ -158,4 +168,38 @@ export interface TransactionPreviewType {
   disbursement_amount: number;
   payable: number;
   error?: string;
+}
+
+export interface WorkerType {
+  id: number;
+  type: string;
+  name: string;
+  image?: string;
+  phone: string;
+  nagad: string;
+  bkash: string;
+  created_at: Date;
+  active_account: string;
+  total_paid: number;
+  total_bonus: number;
+  total_adjustment: number;
+  commission: number;
+  payable: number;
+}
+
+export interface PaymentPayableType {
+  id: number;
+  name: string;
+  nagad: string;
+  bkash: string;
+  active_account: string;
+  payable: number;
+}
+
+export interface PaymentLogType {
+  id: number;
+  status: string;
+  account_type: string;
+  user_name: string;
+  created_at: string;
 }

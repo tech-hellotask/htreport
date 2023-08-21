@@ -6,13 +6,15 @@ type ErrorAlertProps = {
   error: CustomError | null;
   style?: React.CSSProperties;
   margin?: boolean;
+  closable?: boolean;
 };
 
 export function ErrorAlert({
   isError,
   error,
   style,
-  margin = false,
+  margin = true,
+  closable = true,
 }: ErrorAlertProps) {
   if (isError) {
     return (
@@ -20,6 +22,7 @@ export function ErrorAlert({
         message={axiosErrorMsg(error)}
         type="error"
         style={style ?? { marginBottom: margin ? "10px" : "0" }}
+        closable={closable}
       />
     );
   }

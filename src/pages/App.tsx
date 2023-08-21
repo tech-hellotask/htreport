@@ -4,9 +4,10 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AppLayout from "../lib/layout";
 import UserList from "./user/UserList";
 import Login from "./login";
-import Worker from "./worker";
+import CreateWorker from "./worker/Create";
+import WorkerList from "./worker/List";
 import Service from "./service";
-import PaymentWorkers from "./payment/Workers";
+import PaymentWorkers from "./payment/Payable";
 import PaymentAdjustment from "./payment/Adjustments";
 import Bonus from "./payment/Bonus";
 import PaymentOrders from "./payment/Orders";
@@ -35,15 +36,19 @@ const routes = [
     element: <Login />,
   },
   {
-    path: "/worker",
-    element: <Worker />,
+    path: "/worker/create",
+    element: <CreateWorker />,
+  },
+  {
+    path: "/worker/list",
+    element: <WorkerList />,
   },
   {
     path: "/worker/:id/profile",
     element: <WorkerProfile />,
   },
   {
-    path: "/payment/workers",
+    path: "/payment/payable",
     element: <PaymentWorkers />,
   },
   {
