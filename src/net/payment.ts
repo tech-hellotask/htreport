@@ -37,6 +37,11 @@ export const fetchPaymentLog = async ({ queryKey: [path] }: QueryOptions) => {
   return response.data;
 };
 
+export const fetchPaymentLogs = async ({ queryKey: [path] }: QueryOptions) => {
+  const response = await axios.get(path as string);
+  return response.data;
+};
+
 export const closePaymentLog = async (id: number) => {
   const response = await axios.put(`/payment/log/${id}`);
   return response.data;

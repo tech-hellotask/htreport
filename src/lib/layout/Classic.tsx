@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { LayoutContext, LayoutProps } from ".";
 import "./layout.scss";
 import { useSearchParams } from "react-router-dom";
+import ProfileMenu from "./ProfileMenu";
 
 const { Header, Sider, Content } = Layout;
 
@@ -77,6 +78,9 @@ const ClassicLayout: React.FC<{
                 />
               )}
             </Space>
+            <div>
+              <ProfileMenu />
+            </div>
           </Header>
           <Content className="app-content">{children}</Content>
         </Layout>

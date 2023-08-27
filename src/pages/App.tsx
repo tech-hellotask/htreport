@@ -18,6 +18,10 @@ import { RootState } from "../store";
 import { AuthType } from "../store/auth";
 import { initAxiosSetup } from "../utils/auth";
 import { fetchAdminProfile } from "../net/admin";
+import { createContext } from "react";
+import { AdminType } from "../utils/types";
+import SyncPayments from "./payment/Sync";
+import PaymentLogs from "./payment/Logs";
 
 // axios default config
 initAxiosSetup();
@@ -52,6 +56,14 @@ const routes = [
     element: <PaymentWorkers />,
   },
   {
+    path: "/payment/sync",
+    element: <SyncPayments />,
+  },
+  {
+    path: "/payment/logs",
+    element: <PaymentLogs />,
+  },
+  {
     path: "/payment/adjustment",
     element: <PaymentAdjustment />,
   },
@@ -80,6 +92,14 @@ const authRoutes = [
   },
 ];
 
+export type AppContextType = {
+  user: AdminType | null;
+};
+
+export const AppContext = createContext<AppContextType>({
+  user: null,
+});
+
 export default function App() {
   const auth = useSelector<RootState, AuthType>((state) => state.auth);
   const query = useQuery({
@@ -90,22 +110,34 @@ export default function App() {
   });
 
   return (
-    <Router>
-      {query.data ? (
-        <AppLayout>
+    <AppContext.Provider
+      value={{
+        user: query.data as AdminType,
+      }}
+    >
+      <Router>
+        {query.data ? (
+          <AppLayout>
+            <Routes>
+              {routes.map((route) => (
+                <Route {...route} />
+              ))}
+            </Routes>
+          </AppLayout>
+        ) : query.isFetching && query.failureCount == 0 && query.isLoading ? (
+          <div>loading...</div>
+        ) : (
           <Routes>
-            {routes.map((route) => (
-              <Route {...route} />
+            {authRoutes.map((route) => (
+              <Route
+                key={route.path}
+                path={route.path}
+                element={route.element}
+              />
             ))}
           </Routes>
-        </AppLayout>
-      ) : (
-        <Routes>
-          {authRoutes.map((route) => (
-            <Route key={route.path} path={route.path} element={route.element} />
-          ))}
-        </Routes>
-      )}
-    </Router>
+        )}
+      </Router>
+    </AppContext.Provider>
   );
 }

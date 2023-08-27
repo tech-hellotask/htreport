@@ -6,6 +6,9 @@ import { ErrorAlert } from "../../lib/Alerts";
 import { CustomError } from "../../utils/errors";
 import { defaultPagination } from "../../utils/pagination";
 import { dateSearchProps, useInputSearch } from "../../lib/searching.hooks";
+import { useState } from "react";
+import { objToQuery } from "../../utils/func";
+import { SorterResult } from "antd/es/table/interface";
 
 const colors = {
   Canceled: "red",
@@ -14,11 +17,21 @@ const colors = {
 };
 
 export default function PaymentOrders() {
+  const [params, setParams] = useState({
+    limit: 100,
+    offset: 0,
+    start_date: "",
+    end_date: "",
+    order: "",
+    status: "",
+    payment_status: "",
+    id: "",
+  });
   const { isSuccess, data, isLoading, isError, error } = useQuery<
     OrderListItemType[],
     CustomError
   >({
-    queryKey: ["/orders/list"],
+    queryKey: [`/order/list?${objToQuery(params)}`],
     queryFn: fetchOrders,
   });
   const { getColumnSearchProps } = useInputSearch();
@@ -51,15 +64,10 @@ export default function PaymentOrders() {
             key: "type",
           },
           {
-            title: "Customer ID",
-            dataIndex: "customer_id",
-            key: "customer_id",
-          },
-
-          {
             title: "Status",
             dataIndex: "status",
             key: "status",
+            ...getColumnSearchProps("status"),
             render: (status: string) => {
               return <Tag color={colors[status]}>{status}</Tag>;
             },
@@ -68,36 +76,86 @@ export default function PaymentOrders() {
             title: "Payment Status",
             dataIndex: "payment_status",
             key: "payment_status",
+            ...getColumnSearchProps("payment_status"),
           },
           {
-            title: "Regular Price",
+            title: "$ Regular Price",
             dataIndex: "regular_price",
             key: "regular_price",
           },
           {
-            title: "Discount",
+            title: "$ Discount",
             dataIndex: "discount",
             key: "discount",
           },
           {
-            title: "Service Charge",
+            title: "$ Service Charge",
             dataIndex: "service_charge",
             key: "service_charge",
           },
           {
-            title: "Vat",
+            title: "$ Vat",
             dataIndex: "vat",
             key: "vat",
           },
           {
-            title: "Refund",
+            title: "$ Final Price",
+            dataIndex: "final_price",
+            key: "final_price",
+          },
+          {
+            title: "$ Refund",
             dataIndex: "refund",
             key: "refund",
           },
         ]}
         dataSource={isSuccess ? data : []}
-        scroll={{ x: 1000, y: "calc(100vh - 240px)" }}
-        pagination={defaultPagination}
+        scroll={{ x: "1200px", y: "calc(100vh - 240px)" }}
+        pagination={{
+          ...defaultPagination,
+          total: isSuccess ? params.limit + params.offset + 1 : 0,
+        }}
+        onChange={(
+          pagination,
+          filters,
+          sorter: SorterResult<OrderListItemType>
+        ) => {
+          console.log(pagination, filters, sorter);
+          setParams((prev) => {
+            const temp = { ...prev };
+
+            temp.limit = pagination.pageSize;
+            temp.offset = (pagination.current - 1) * pagination.pageSize;
+
+            if (filters.status?.length) {
+              temp.status = (filters.status[0] as string) || "";
+            } else {
+              temp.status = "";
+            }
+
+            if (filters.payment_status?.length) {
+              temp.payment_status = (filters.payment_status[0] as string) || "";
+            } else {
+              temp.payment_status = "";
+            }
+
+            if (sorter.order) {
+              temp.order = sorter.order === "ascend" ? "asc" : "desc";
+            } else {
+              temp.order = "";
+            }
+
+            if (filters.created_at?.length == 2) {
+              temp.start_date = (filters.created_at[0] as string) || "";
+              temp.end_date = (filters.created_at[1] as string) || "";
+            } else {
+              temp.start_date = "";
+              temp.end_date = "";
+            }
+
+            return temp;
+          });
+        }}
       />
     </div>
   );

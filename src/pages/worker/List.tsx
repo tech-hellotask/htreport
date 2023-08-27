@@ -173,7 +173,10 @@ export default function WorkerList() {
         columns={columns}
         dataSource={isSuccess ? data : []}
         scroll={{ x: 1000, y: "calc(100vh - 240px)" }}
-        pagination={defaultPagination}
+        pagination={{
+          ...defaultPagination,
+          total: isSuccess ? params.limit + params.offset + 1 : 0,
+        }}
         onChange={(
           pagination,
           filters,

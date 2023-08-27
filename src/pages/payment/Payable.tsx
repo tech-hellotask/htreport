@@ -34,6 +34,9 @@ export default function PaymentWorkers() {
       key: "id",
       width: "80px",
       ...getColumnSearchProps("id"),
+      sorter: (a: PaymentPayableType, b: PaymentPayableType) => {
+        return a.id - b.id;
+      },
       render: (id: number, { name }) => <WorkerMenu id={id} name={name} />,
     },
     {
@@ -42,6 +45,9 @@ export default function PaymentWorkers() {
       key: "name",
       width: "160px",
       ...getColumnSearchProps("name"),
+      sorter: (a: PaymentPayableType, b: PaymentPayableType) => {
+        return a.name.localeCompare(b.name);
+      },
       render: (name: string, { id }) => (
         <WorkerMenu id={id} name={name}>
           {name}

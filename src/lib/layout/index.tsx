@@ -1,15 +1,25 @@
 import { useState, createContext } from "react";
 import ClassicLayout from "./Classic";
 import {
-  OrderedListOutlined,
-  UploadOutlined,
-  UserOutlined,
-  // VideoCameraOutlined,
+  CreditCardOutlined,
+  DollarOutlined,
+  FileAddOutlined,
+  FileSearchOutlined,
+  GiftOutlined,
+  HomeOutlined,
+  InsertRowAboveOutlined,
+  PlusOutlined,
+  RobotOutlined,
+  ShopOutlined,
+  SyncOutlined,
+  ToolOutlined,
+  TransactionOutlined,
+  UserSwitchOutlined,
 } from "@ant-design/icons";
 import { NavLink } from "react-router-dom";
 import { MenuItemType } from "../../utils/types";
 
-export const getMenuItem = (item: MenuItemType): MenuItemType => {
+const getMenuItem = (item: MenuItemType): MenuItemType => {
   return {
     key: item.key,
     icon: item.icon,
@@ -30,32 +40,32 @@ export const getMenuItem = (item: MenuItemType): MenuItemType => {
 const menuItems = [
   {
     key: "home",
-    icon: <UserOutlined />,
+    icon: <HomeOutlined />,
     label: "Home",
     link: "/",
   },
   {
     key: "users",
-    icon: <UploadOutlined />,
+    icon: <UserSwitchOutlined />,
     label: "Users",
     link: "/users",
     title: "Users",
   },
   {
     key: "workers",
-    icon: <UploadOutlined />,
+    icon: <RobotOutlined />,
     label: "Workers",
     children: [
       {
         key: "worker_create",
-        icon: <OrderedListOutlined />,
+        icon: <PlusOutlined />,
         label: "Add New",
         link: "/worker/create",
         title: "Worker > Create",
       },
       {
         key: "worker_list",
-        icon: <OrderedListOutlined />,
+        icon: <InsertRowAboveOutlined />,
         label: "List",
         link: "/worker/list",
         title: "Worker > List",
@@ -64,50 +74,64 @@ const menuItems = [
   },
   {
     key: "payment",
-    icon: <UploadOutlined />,
+    icon: <DollarOutlined style={{ fontSize: "20px" }} />,
     label: "Payment",
     children: [
       {
-        key: "payment_workers",
-        icon: <OrderedListOutlined />,
-        label: "Payable",
-        link: "/payment/payable",
-        title: "Payment > Payable",
-      },
-      {
         key: "payment_adjustment",
-        icon: <OrderedListOutlined />,
+        icon: <FileAddOutlined />,
         label: "Adjustment",
         link: "/payment/adjustment",
         title: "Payment > Adjustment",
       },
       {
         key: "payment_bonus",
-        icon: <OrderedListOutlined />,
+        icon: <GiftOutlined />,
         label: "Bonus",
         link: "/payment/bonus",
         title: "Payment > Worker Bonus",
       },
       {
+        key: "payment_payable",
+        icon: <CreditCardOutlined />,
+        label: "Payable",
+        link: "/payment/payable",
+        title: "Payment > Payable",
+      },
+      {
         key: "payment_orders",
-        icon: <OrderedListOutlined />,
+        icon: <ShopOutlined />,
         label: "Orders",
         link: "/payment/orders",
         title: "Payment > Orders",
       },
       {
+        key: "sync_payment_payable",
+        icon: <SyncOutlined />,
+        label: "Sync",
+        link: "/payment/sync",
+        title: "Payment > Sync",
+      },
+      {
         key: "payment_transactions",
-        icon: <OrderedListOutlined />,
+        icon: <TransactionOutlined />,
         label: "Transactions",
         link: "/payment/transactions",
         title: "Payment > Transactions",
       },
+      {
+        key: "payment_logs",
+        icon: <FileSearchOutlined />,
+        label: "Logs",
+        link: "/payment/logs",
+        title: "Payment > Logs",
+      },
     ],
   },
   {
-    key: "service",
-    icon: <UploadOutlined />,
-    label: "Service",
+    key: "services",
+    icon: <ToolOutlined />,
+    label: "Services",
     link: "/service",
     title: "Services",
   },
