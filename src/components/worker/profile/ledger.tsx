@@ -5,13 +5,33 @@ import { CustomError } from "../../../utils/errors";
 import { getWorkerLedgerById } from "../../../net/worker";
 import { useQuery } from "@tanstack/react-query";
 import { ErrorAlert } from "../../../lib/Alerts";
+import { localDateTime } from "../../../utils/func";
+import { useState } from "react";
+import { dateSearchProps } from "../../../lib/searching.hooks";
 
-const columns = () => {
-  return [
+export default function WorkerLedger({ id }: { id: string | number }) {
+  const [date, setDate] = useState<string[]>([]);
+  const { isLoading, data, isError, error, isSuccess } = useQuery<
+    WorkerLedgerType,
+    CustomError
+  >({
+    queryKey: [
+      `/worker/${id}/ledger?${
+        date?.length == 2 ? `startDate=${date[0]}&endDate=${date[1]}` : ""
+      }`,
+      id,
+    ],
+    queryFn: getWorkerLedgerById,
+  });
+
+  const columns = [
     {
       title: "Date & Time",
       dataIndex: "created_at",
       key: "created_at",
+      width: "200px",
+      ...dateSearchProps(),
+      render: (created_at: string) => localDateTime(created_at),
     },
     {
       title: "Topic",
@@ -61,29 +81,22 @@ const columns = () => {
         tx_type === "credit" ? amount.toString() + " BDT" : "-",
     },
   ];
-};
-
-export default function WorkerLedger({ id }: { id: string | number }) {
-  const { isLoading, data, isError, error, isSuccess } = useQuery<
-    WorkerLedgerType,
-    CustomError
-  >({
-    queryKey: [`/worker/${id}/ledger`, id],
-    queryFn: getWorkerLedgerById,
-  });
 
   return (
     <Wrapper span={24} xl={18}>
       <ErrorAlert error={error} isError={isError} />
       <Table
         loading={isLoading}
-        columns={columns()}
+        columns={columns}
         dataSource={isSuccess && data && data.items ? data.items : []}
         scroll={{
           y: "calc(100vh - 220px)",
-          x: "500px",
+          x: "800px",
         }}
         pagination={false}
+        onChange={(_, filter) => {
+          setDate(filter.created_at as string[]);
+        }}
       />
       {isSuccess && data && (
         <div className="footer">

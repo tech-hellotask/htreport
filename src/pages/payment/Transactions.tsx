@@ -5,7 +5,8 @@ import { useQuery } from "@tanstack/react-query";
 import { TransactionType } from "../../utils/types";
 import { defaultPagination } from "../../utils/pagination";
 import { CustomError } from "../../utils/errors";
-import { useInputSearch } from "../../lib/searching.hooks";
+import { dateSearchProps, useInputSearch } from "../../lib/searching.hooks";
+import { localDateTime } from "../../utils/func";
 
 export default function PaymentTransactions() {
   const { isSuccess, data, isLoading, isError, error } = useQuery<
@@ -22,8 +23,10 @@ export default function PaymentTransactions() {
       title: "Created At",
       dataIndex: "created_at",
       key: "created_at",
+      width: "200px",
+      ...dateSearchProps(),
       render: (created_at: string) => {
-        return <div>{new Date(created_at).toLocaleString()}</div>;
+        return <div>{localDateTime(created_at)}</div>;
       },
     },
     {

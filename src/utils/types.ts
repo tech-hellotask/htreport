@@ -60,7 +60,7 @@ export interface BonusType {
   remarks: string;
   added_by: string;
   added_by_id: number;
-  created_at?: string;
+  created_at: string;
   updated_at?: string;
 }
 

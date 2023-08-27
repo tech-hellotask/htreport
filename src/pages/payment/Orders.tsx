@@ -5,7 +5,7 @@ import { OrderListItemType } from "../../utils/types";
 import { ErrorAlert } from "../../lib/Alerts";
 import { CustomError } from "../../utils/errors";
 import { defaultPagination } from "../../utils/pagination";
-import { useInputSearch } from "../../lib/searching.hooks";
+import { dateSearchProps, useInputSearch } from "../../lib/searching.hooks";
 
 const colors = {
   Canceled: "red",
@@ -33,6 +33,8 @@ export default function PaymentOrders() {
             title: "Date & Time",
             dataIndex: "created_at",
             key: "created_at",
+            width: "200px",
+            ...dateSearchProps(),
             render: (created_at: string) => {
               return <div>{new Date(created_at).toLocaleString()}</div>;
             },

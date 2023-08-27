@@ -1,6 +1,6 @@
 import { useState, createRef } from "react";
-import { InputRef } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
+import { DatePicker, InputRef } from "antd";
+import { CalendarOutlined, SearchOutlined } from "@ant-design/icons";
 import FilterDropdown from "./FilterDropdown";
 import { FilterDropdownProps } from "antd/es/table/interface";
 
@@ -55,3 +55,36 @@ export const useInputSearch = () => {
     getColumnSearchProps,
   };
 };
+
+export const dateSearchProps = () => ({
+  filterDropdown: ({ setSelectedKeys, confirm }) => (
+    <div style={{ padding: 8 }}>
+      <DatePicker.RangePicker
+        style={{ width: "250px" }}
+        format="YYYY-MM-DD"
+        size="large"
+        value={setSelectedKeys[0]}
+        onChange={(dates) => {
+          setSelectedKeys(dates ? dates.map((date) => date.toISOString()) : []);
+          confirm();
+        }}
+      />
+    </div>
+  ),
+  filterIcon: (filtered: boolean) => {
+    return (
+      <div
+        style={{
+          fontSize: "20px",
+          padding: "7px 10px",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <CalendarOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
+      </div>
+    );
+  },
+  sorter: (a, b) =>
+    new Date(a.created_at).getTime() - new Date(b.created_at).getTime(),
+});

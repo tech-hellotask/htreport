@@ -6,9 +6,10 @@ import { AdjustmentType } from "./../../utils/types";
 import { fetchAdjustments } from "../../net/payment";
 import { useQuery } from "@tanstack/react-query";
 import { CustomError } from "../../utils/errors";
-import { useInputSearch } from "../../lib/searching.hooks";
+import { dateSearchProps, useInputSearch } from "../../lib/searching.hooks";
 import { useState } from "react";
-import { objToQuery } from "../../utils/func";
+import { localDateTime, objToQuery } from "../../utils/func";
+import { SorterResult } from "antd/es/table/interface";
 
 export default function PaymentAdjustment() {
   const { getColumnSearchProps } = useInputSearch();
@@ -18,10 +19,12 @@ export default function PaymentAdjustment() {
     phone: "",
     name: "",
     remarks: "",
+    amount: 0,
     worker_id: 0,
-    worker_pid: 0,
     start_date: "",
-    end_date: 0,
+    end_date: "",
+    order: "desc",
+    order_by: "created_at",
   });
   const { isSuccess, data, isLoading, isError, error } = useQuery<
     AdjustmentType[],
@@ -36,7 +39,8 @@ export default function PaymentAdjustment() {
       title: "Date & Time",
       dataIndex: "created_at",
       key: "created_at",
-      render: (created_at: string) => new Date(created_at).toLocaleString(),
+      ...dateSearchProps(),
+      render: (created_at: string) => localDateTime(created_at),
     },
     {
       title: "Worker Name",
@@ -54,6 +58,7 @@ export default function PaymentAdjustment() {
       title: "Amount",
       dataIndex: "amount",
       key: "amount",
+      ...getColumnSearchProps("amount"),
     },
     {
       title: "Remarks",
@@ -80,20 +85,34 @@ export default function PaymentAdjustment() {
         dataSource={isSuccess ? data : []}
         scroll={{ x: 1000, y: "calc(100vh - 240px)" }}
         pagination={defaultPagination}
-        onChange={(pagination, filters) => {
+        onChange={(
+          pagination,
+          filters,
+          sorter: SorterResult<AdjustmentType>
+        ) => {
           setParams((params) => {
             const temp = { ...params };
             temp.limit = pagination.pageSize;
             temp.offset = (pagination.current - 1) * pagination.pageSize;
-            (temp.worker_id = filters.worker_id
+            temp.worker_id = filters.worker_id
               ? parseInt(filters.worker_id?.toString())
-              : 0),
-              (temp.worker_pid = filters.worker_pid
-                ? parseInt(filters.worker_pid?.toString())
-                : 0),
-              (temp.name = filters.name?.toString());
+              : 0;
+            temp.name = filters.name?.toString();
             temp.phone = filters.phone?.toString();
             temp.remarks = filters.remarks?.toString();
+            temp.amount = filters.amount
+              ? parseInt(filters.amount.toString())
+              : 0;
+
+            if (filters.created_at?.length == 2) {
+              temp.start_date = filters.created_at[0] as string;
+              temp.end_date = filters.created_at[1] as string;
+            }
+
+            if (sorter.order) {
+              temp.order = sorter.order == "ascend" ? "asc" : "desc";
+              temp.order_by = sorter.field as string;
+            }
 
             return temp;
           });
