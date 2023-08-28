@@ -12,6 +12,7 @@ import WorkerMenu from "../../components/menu/worker";
 import { DownloadOutlined } from "@ant-design/icons";
 import { downloadCsv } from "../../utils/func";
 import PaymentLatestLog from "../../components/payment/transaction/log";
+import MobileAccountLogo from "../../lib/MobileAccountLogo";
 
 export default function PaymentWorkers() {
   const [workerProfileId, setWorkerProfileId] = useState<number | null>(null);
@@ -93,12 +94,19 @@ export default function PaymentWorkers() {
       ...getColumnSearchProps("bkash"),
     },
     {
+      title: "Payment Account",
+      dataIndex: "active_account",
+      key: "active_account",
+      width: "120px",
+      render: (text: string) => <MobileAccountLogo type={text} />,
+    },
+    {
       title: "Payable",
       dataIndex: "payable",
       key: "payable",
       sorter: (a: PaymentPayableType, b: PaymentPayableType) =>
         a.payable - b.payable,
-      render: (payable: number = 0) => payable.toFixed(0),
+      render: (payable: number = 0) => payable.toFixed(0) + " Tk",
     },
   ];
 
@@ -139,7 +147,7 @@ export default function PaymentWorkers() {
     <div>
       <ErrorAlert isError={isError} error={error} />
       <Row gutter={[24, 16]}>
-        <Col span={24} md={20} lg={12}>
+        <Col span={24} lg={8}>
           <div style={{ marginBottom: "20px" }}>
             <Space>
               <Button
@@ -171,7 +179,7 @@ export default function PaymentWorkers() {
           <PaymentLatestLog />
           <UploadPayment />
         </Col>
-        <Col span={24} lg={12}>
+        <Col span={24} lg={16}>
           <div className="mb-10">
             <Button
               onClick={() => downloadData(data)}

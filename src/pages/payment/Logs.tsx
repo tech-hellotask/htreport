@@ -8,6 +8,7 @@ import { useInputSearch, dateSearchProps } from "../../lib/searching.hooks";
 import { defaultPagination } from "../../utils/pagination";
 import { localDateTime, objToQuery } from "../../utils/func";
 import { fetchPaymentLogs } from "../../net/payment";
+import MobileAccountLogo from "../../lib/MobileAccountLogo";
 
 const colors = {
   init: "red",
@@ -65,6 +66,7 @@ export default function PaymentLogs() {
       title: "Account Type",
       dataIndex: "account_type",
       key: "account_type",
+      render: (type: string) => <MobileAccountLogo type={type} />,
     },
   ];
 

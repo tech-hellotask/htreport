@@ -1,6 +1,7 @@
 import { Dropdown, MenuProps } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 export default function WorkerMenu({
   children,
@@ -37,8 +38,17 @@ export default function WorkerMenu({
   return (
     <div style={{ cursor: "pointer" }}>
       <Dropdown menu={{ items }} trigger={["click"]}>
-        <div>{children || id}</div>
+        <Styles>{children || id}</Styles>
       </Dropdown>
     </div>
   );
 }
+
+const Styles = styled.div`
+  transition: all 0.2s ease-in-out;
+  text-align: center;
+
+  &:hover {
+    scale: 1.1;
+  }
+`;

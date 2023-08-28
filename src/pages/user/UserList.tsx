@@ -1,4 +1,4 @@
-import { Space, Table, Image } from "antd";
+import { Space, Table } from "antd";
 import { ErrorAlert } from "../../lib/Alerts";
 import { defaultPagination } from "../../utils/pagination";
 import { AdminType } from "./../../utils/types";
@@ -9,14 +9,14 @@ import CreateUserRole from "../../components/user/CreateRole";
 import { fetchAdminList } from "../../net/admin";
 
 const columns = [
-  {
-    title: "Image",
-    dataIndex: "image",
-    key: "image",
-    render: (image: string) => (
-      <Image className="table-image" src={image} preview={true} />
-    ),
-  },
+  // {
+  //   title: "Image",
+  //   dataIndex: "image",
+  //   key: "image",
+  //   render: (image: string) => (
+  //     <Image className="table-image" src={image} preview={true} />
+  //   ),
+  // },
   {
     title: "Name",
     dataIndex: "name",
