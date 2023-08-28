@@ -86,18 +86,27 @@ export default function Bonus() {
             if (filters.created_at?.length === 2) {
               temp.start_date = filters.created_at[0] as string;
               temp.end_date = filters.created_at[1] as string;
+            } else {
+              temp.start_date = "";
+              temp.end_date = "";
             }
 
             if (filters.worker_id) {
               temp.worker_id = filters.worker_id[0] as number;
+            } else {
+              temp.worker_id = 0;
             }
 
             if (filters.bonus_amount) {
               temp.amount = filters.bonus_amount[0] as number;
+            } else {
+              temp.amount = 0;
             }
-            console.log(sorter);
+
             if (sorter.order) {
               temp.order = sorter.order === "ascend" ? "asc" : "desc";
+            } else {
+              temp.order = "desc";
             }
 
             return temp;

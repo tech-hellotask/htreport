@@ -203,3 +203,42 @@ export interface PaymentLogType {
   user_name: string;
   created_at: string;
 }
+
+export interface OrderDetailsType {
+  id: number;
+  type: string;
+  customer_id: number;
+  service_id: number;
+  service_name: string;
+  status: string;
+  payment_status: string;
+  area_id: number;
+  created_at: string;
+  updated_at?: string;
+  work_hour: number;
+  rate: number;
+  regular_price: number;
+  discount: number;
+  vat: number;
+  service_charge: number;
+  final_price: number;
+  refund: number;
+  workers: OrderDetailsWorker[];
+}
+
+export interface OrderDetailsWorker {
+  id: number;
+  worker_id: number;
+  worker: {
+    id: number;
+    name: string;
+    phone: string;
+    image: string;
+  };
+  commission_type: string;
+  commission_amount: number;
+  commission: number;
+  due: number;
+  status: string;
+  updated_at?: string;
+}

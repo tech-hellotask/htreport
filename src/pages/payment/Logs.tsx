@@ -1,4 +1,4 @@
-import { Table } from "antd";
+import { Table, Tag } from "antd";
 import { useState } from "react";
 import { PaymentLogType } from "../../utils/types";
 import { CustomError } from "../../utils/errors";
@@ -8,6 +8,12 @@ import { useInputSearch, dateSearchProps } from "../../lib/searching.hooks";
 import { defaultPagination } from "../../utils/pagination";
 import { localDateTime, objToQuery } from "../../utils/func";
 import { fetchPaymentLogs } from "../../net/payment";
+
+const colors = {
+  init: "red",
+  completed: "green",
+  closed: "gray",
+};
 
 export default function PaymentLogs() {
   const [params, setParams] = useState({
@@ -44,6 +50,11 @@ export default function PaymentLogs() {
       dataIndex: "status",
       key: "status",
       ...getColumnSearchProps("status"),
+      render: (status: string) => (
+        <Tag style={{ textTransform: "capitalize" }} color={colors[status]}>
+          {status}
+        </Tag>
+      ),
     },
     {
       title: "User",
@@ -73,6 +84,7 @@ export default function PaymentLogs() {
           const temp = { ...params };
           temp.limit = pagination.pageSize;
           temp.offset = pagination.pageSize * (pagination.current - 1);
+
           if (filters.created_at?.length === 2) {
             temp.start_date = filters.created_at[0] as string;
             temp.end_date = filters.created_at[1] as string;
@@ -80,11 +92,13 @@ export default function PaymentLogs() {
             temp.start_date = "";
             temp.end_date = "";
           }
+
           if (filters.account_type?.length) {
             temp.account_type = filters.account_type[0] as string;
           } else {
             temp.account_type = "";
           }
+
           setParams(temp);
         }}
       />

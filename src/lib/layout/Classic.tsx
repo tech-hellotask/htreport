@@ -23,6 +23,7 @@ function Sidebar() {
         top: 0,
         bottom: 0,
       }}
+      width={220}
       className="custom-scroll sidebar"
     >
       <div className="app-logo">
@@ -57,7 +58,7 @@ const ClassicLayout: React.FC<{
     <div className="app app-classic">
       <Layout hasSider className="app-layout">
         <Sidebar />
-        <Layout style={{ marginLeft: collapsed ? 80 : 200 }}>
+        <Layout style={{ marginLeft: collapsed ? 80 : 220 }}>
           <Header className="app-header">
             <Space>
               <Button

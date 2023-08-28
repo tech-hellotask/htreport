@@ -40,41 +40,13 @@ const getMenuItem = (item: MenuItemType): MenuItemType => {
 const menuItems = [
   {
     key: "home",
-    icon: <HomeOutlined />,
+    icon: <HomeOutlined className="font-20" />,
     label: "Home",
     link: "/",
   },
   {
-    key: "users",
-    icon: <UserSwitchOutlined />,
-    label: "Users",
-    link: "/users",
-    title: "Users",
-  },
-  {
-    key: "workers",
-    icon: <RobotOutlined />,
-    label: "Workers",
-    children: [
-      {
-        key: "worker_create",
-        icon: <PlusOutlined />,
-        label: "Add New",
-        link: "/worker/create",
-        title: "Worker > Create",
-      },
-      {
-        key: "worker_list",
-        icon: <InsertRowAboveOutlined />,
-        label: "List",
-        link: "/worker/list",
-        title: "Worker > List",
-      },
-    ],
-  },
-  {
     key: "payment",
-    icon: <DollarOutlined style={{ fontSize: "20px" }} />,
+    icon: <DollarOutlined className="font-20" />,
     label: "Payment",
     children: [
       {
@@ -98,13 +70,7 @@ const menuItems = [
         link: "/payment/payable",
         title: "Payment > Payable",
       },
-      {
-        key: "payment_orders",
-        icon: <ShopOutlined />,
-        label: "Orders",
-        link: "/payment/orders",
-        title: "Payment > Orders",
-      },
+
       {
         key: "sync_payment_payable",
         icon: <SyncOutlined />,
@@ -129,8 +95,51 @@ const menuItems = [
     ],
   },
   {
+    key: "orders",
+    icon: <ShopOutlined className="font-20" />,
+    label: "Orders",
+    title: "Orders",
+    children: [
+      {
+        key: "order_list",
+        icon: <InsertRowAboveOutlined />,
+        label: "List",
+        link: "/order/list",
+        title: "Order > List",
+      },
+    ],
+  },
+  {
+    key: "users",
+    icon: <UserSwitchOutlined className="font-20" />,
+    label: "Users",
+    link: "/users",
+    title: "Users",
+  },
+  {
+    key: "workers",
+    icon: <RobotOutlined className="font-20" />,
+    label: "Workers",
+    children: [
+      {
+        key: "worker_create",
+        icon: <PlusOutlined />,
+        label: "Add New",
+        link: "/worker/create",
+        title: "Worker > Create",
+      },
+      {
+        key: "worker_list",
+        icon: <InsertRowAboveOutlined />,
+        label: "List",
+        link: "/worker/list",
+        title: "Worker > List",
+      },
+    ],
+  },
+  {
     key: "services",
-    icon: <ToolOutlined />,
+    icon: <ToolOutlined className="font-20" />,
     label: "Services",
     link: "/service",
     title: "Services",

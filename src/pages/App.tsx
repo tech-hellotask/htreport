@@ -10,7 +10,7 @@ import Service from "./service";
 import PaymentWorkers from "./payment/Payable";
 import PaymentAdjustment from "./payment/Adjustments";
 import Bonus from "./payment/Bonus";
-import PaymentOrders from "./payment/Orders";
+import OrderList from "./order/List";
 import PaymentTransactions from "./payment/Transactions";
 import WorkerProfile from "./worker/Profile";
 import { useSelector } from "react-redux";
@@ -22,6 +22,7 @@ import { createContext } from "react";
 import { AdminType } from "../utils/types";
 import SyncPayments from "./payment/Sync";
 import PaymentLogs from "./payment/Logs";
+import OrderDetails from "./order/Details";
 
 // axios default config
 initAxiosSetup();
@@ -72,8 +73,12 @@ const routes = [
     element: <Bonus />,
   },
   {
-    path: "/payment/orders",
-    element: <PaymentOrders />,
+    path: "/order/list",
+    element: <OrderList />,
+  },
+  {
+    path: "/order/:id",
+    element: <OrderDetails />,
   },
   {
     path: "/payment/transactions",

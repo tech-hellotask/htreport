@@ -15,3 +15,8 @@ export const migrateOrders = async (date: string) => {
   });
   return response.data;
 };
+
+export const fetchOrder = async ({ queryKey: [path] }: QueryOptions) => {
+  const response = await axios.get(path as string);
+  return response.data;
+};

@@ -7,8 +7,9 @@ import { CustomError } from "../../utils/errors";
 import { defaultPagination } from "../../utils/pagination";
 import { dateSearchProps, useInputSearch } from "../../lib/searching.hooks";
 import { useState } from "react";
-import { objToQuery } from "../../utils/func";
+import { localDateTime, objToQuery } from "../../utils/func";
 import { SorterResult } from "antd/es/table/interface";
+import { Link } from "react-router-dom";
 
 const colors = {
   Canceled: "red",
@@ -49,7 +50,7 @@ export default function PaymentOrders() {
             width: "200px",
             ...dateSearchProps(),
             render: (created_at: string) => {
-              return <div>{new Date(created_at).toLocaleString()}</div>;
+              return <div>{localDateTime(created_at)}</div>;
             },
           },
           {
@@ -57,6 +58,13 @@ export default function PaymentOrders() {
             dataIndex: "id",
             key: "id",
             ...getColumnSearchProps("id"),
+            render: (id: string) => {
+              return (
+                <Link target="__blank" to={`/order/${id}`}>
+                  {id}
+                </Link>
+              );
+            },
           },
           {
             title: "Type",
@@ -120,7 +128,6 @@ export default function PaymentOrders() {
           filters,
           sorter: SorterResult<OrderListItemType>
         ) => {
-          console.log(pagination, filters, sorter);
           setParams((prev) => {
             const temp = { ...prev };
 
