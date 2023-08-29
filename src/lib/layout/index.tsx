@@ -6,6 +6,7 @@ import {
   FileAddOutlined,
   FileSearchOutlined,
   GiftOutlined,
+  HistoryOutlined,
   HomeOutlined,
   InsertRowAboveOutlined,
   PlusOutlined,
@@ -80,10 +81,17 @@ const menuItems = [
       },
       {
         key: "payment_transactions",
-        icon: <TransactionOutlined />,
-        label: "Transactions",
+        icon: <HistoryOutlined />,
+        label: "TX History",
         link: "/payment/transactions",
         title: "Payment > Transactions",
+      },
+      {
+        key: "payment_customer_transactions",
+        icon: <TransactionOutlined />,
+        label: "Customer TX",
+        link: "/payment/customer",
+        title: "Payment > Customer Transactions",
       },
       {
         key: "payment_logs",

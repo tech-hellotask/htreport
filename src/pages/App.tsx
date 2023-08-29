@@ -23,6 +23,7 @@ import { AdminType } from "../utils/types";
 import SyncPayments from "./payment/Sync";
 import PaymentLogs from "./payment/Logs";
 import OrderDetails from "./order/Details";
+import CustomerPayments from "./payment/CustomerPayments";
 
 // axios default config
 initAxiosSetup();
@@ -83,6 +84,10 @@ const routes = [
   {
     path: "/payment/transactions",
     element: <PaymentTransactions />,
+  },
+  {
+    path: "/payment/customer",
+    element: <CustomerPayments />,
   },
   {
     path: "/service",

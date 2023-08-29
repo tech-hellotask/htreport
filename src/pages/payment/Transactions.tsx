@@ -2,18 +2,19 @@ import { Table } from "antd";
 import { ErrorAlert } from "../../lib/Alerts";
 import { fetchTransactions } from "../../net/payment";
 import { useQuery } from "@tanstack/react-query";
-import { TransactionType } from "../../utils/types";
+import { ListResponse, TransactionType } from "../../utils/types";
 import { defaultPagination } from "../../utils/pagination";
 import { CustomError } from "../../utils/errors";
 import { dateSearchProps, useInputSearch } from "../../lib/searching.hooks";
 import { localDateTime } from "../../utils/func";
+import WorkerMenu from "../../components/menu/worker";
 
 export default function PaymentTransactions() {
   const { isSuccess, data, isLoading, isError, error } = useQuery<
-    TransactionType[],
+    ListResponse<TransactionType>,
     CustomError
   >({
-    queryKey: ["/transaction/list"],
+    queryKey: ["/payment/list"],
     queryFn: fetchTransactions,
   });
   const { getColumnSearchProps } = useInputSearch();
@@ -39,6 +40,9 @@ export default function PaymentTransactions() {
       title: "Worker Name",
       dataIndex: "worker_name",
       key: "worker_name",
+      render: (name: string, { worker_id }: TransactionType) => {
+        return <WorkerMenu id={worker_id} name={name} children={name} />;
+      },
     },
     {
       title: "Worker Phone",
@@ -83,8 +87,8 @@ export default function PaymentTransactions() {
       <Table
         loading={isLoading}
         columns={columns}
-        dataSource={isSuccess ? data : []}
-        pagination={defaultPagination}
+        dataSource={isSuccess ? data.list : []}
+        pagination={{ ...defaultPagination, total: isSuccess ? data.count : 0 }}
         scroll={{ x: 1000, y: "calc(100vh - 240px)" }}
       />
     </div>

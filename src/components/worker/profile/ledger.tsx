@@ -48,6 +48,7 @@ export default function WorkerLedger({ id }: { id: string | number }) {
         tx_id,
         payment_status,
         order_type,
+        remarks,
       }: WorkerLedgerTypeItem) => {
         return (
           <div>
@@ -64,6 +65,7 @@ export default function WorkerLedger({ id }: { id: string | number }) {
             {order_type && (
               <div className="order_type">Order Type: {order_type}</div>
             )}
+            {remarks && <div className="remarks">Remarks: {remarks}</div>}
           </div>
         );
       },

@@ -1,6 +1,6 @@
-import { Card, Avatar, Descriptions } from "antd";
+import { Card, Avatar, Descriptions, Col, Row } from "antd";
 import styled from "styled-components";
-import { OrderDetailsType } from "../../utils/types";
+import { OrderDetailsPaymentType, OrderDetailsType } from "../../utils/types";
 import type { DescriptionsProps } from "antd";
 import { localDateTime } from "../../utils/func";
 import { useQuery } from "@tanstack/react-query";
@@ -70,11 +70,6 @@ const OrderDetailsCard = ({ order }) => {
       children: order.status,
     },
     {
-      key: "4",
-      label: "Payment Status",
-      children: order.payment_status,
-    },
-    {
       key: "11",
       label: "Work Hour",
       children: order.work_hour,
@@ -86,28 +81,28 @@ const OrderDetailsCard = ({ order }) => {
     },
     {
       key: "7",
-      label: "$ Service Charge",
-      children: order.service_charge,
+      label: "Service Charge",
+      children: order.service_charge.toString() + " TK",
     },
     {
       key: "5",
-      label: "$ Regular Price",
-      children: order.regular_price,
+      label: "Regular Price",
+      children: order.regular_price.toString() + " TK",
     },
     {
       key: "6",
-      label: "$ Discount",
-      children: order.discount,
+      label: "Discount",
+      children: order.discount.toString() + " TK",
     },
     {
       key: "8",
-      label: "$ Vat",
-      children: order.vat,
+      label: "Vat",
+      children: order.vat.toString() + " TK",
     },
     {
       key: "9",
       label: "$ Final Price",
-      children: order.final_price,
+      children: order.final_price.toString() + " TK",
     },
     {
       key: "10",
@@ -120,6 +115,58 @@ const OrderDetailsCard = ({ order }) => {
     <div className="box-light mb-20">
       <Descriptions title={`Order #${order.id}`} items={items} />
     </div>
+  );
+};
+
+const CustomerPayment = ({ payment }: { payment: OrderDetailsPaymentType }) => {
+  const items: DescriptionsProps["items"] = [
+    {
+      key: "1",
+      label: "TX ID",
+      children: payment.tx_id,
+      span: 3,
+    },
+    {
+      key: "2",
+      label: "Payment Method",
+      children: payment.method,
+      span: 3,
+    },
+    {
+      key: "3",
+      label: "Payment Status",
+      children: payment.status,
+      span: 3,
+    },
+    {
+      key: "4",
+      label: "Payment Amount",
+      children: payment.amount,
+      span: 3,
+    },
+    {
+      key: "5",
+      label: "Remarks",
+      children: payment.remarks,
+      span: 3,
+    },
+    {
+      key: "6",
+      label: "MetaInfo",
+      children: <pre>{JSON.stringify(payment.meta_info ?? "", null, 2)}</pre>,
+      span: 3,
+      style: {
+        overflow: "auto",
+        width: "100%",
+      },
+    },
+  ];
+  return (
+    <Col span={24} lg={10}>
+      <div className="box-light">
+        <Descriptions title="Payment" items={items} />
+      </div>
+    </Col>
   );
 };
 
@@ -141,11 +188,16 @@ export default function OrderDetails({ id: defaultId }: { id?: number }) {
 
   return (
     <Wrapper>
-      <OrderDetailsCard order={query.data} />
-      <div>Assigned Workers</div>
-      {query.data.workers.map((worker) => (
-        <WorkerCard key={worker.id} worker={worker} />
-      ))}
+      <Row gutter={16}>
+        <Col span={24} lg={14}>
+          <OrderDetailsCard order={query.data} />
+          <div>Assigned Workers</div>
+          {query.data.workers.map((worker) => (
+            <WorkerCard key={worker.id} worker={worker} />
+          ))}
+        </Col>
+        <CustomerPayment payment={query.data.payment} />
+      </Row>
     </Wrapper>
   );
 }

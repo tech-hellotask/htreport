@@ -1,7 +1,7 @@
 import { Space, Table } from "antd";
 import { ErrorAlert } from "../../lib/Alerts";
 import { defaultPagination } from "../../utils/pagination";
-import { AdminType } from "./../../utils/types";
+import { AdminType, ListResponse } from "./../../utils/types";
 import { useQuery } from "@tanstack/react-query";
 import { CustomError } from "../../utils/errors";
 import UserRegistration from "../../components/user/Registration";
@@ -9,14 +9,6 @@ import CreateUserRole from "../../components/user/CreateRole";
 import { fetchAdminList } from "../../net/admin";
 
 const columns = [
-  // {
-  //   title: "Image",
-  //   dataIndex: "image",
-  //   key: "image",
-  //   render: (image: string) => (
-  //     <Image className="table-image" src={image} preview={true} />
-  //   ),
-  // },
   {
     title: "Name",
     dataIndex: "name",
@@ -41,7 +33,7 @@ const columns = [
 
 export default function UserList() {
   const { isSuccess, data, isLoading, isError, error } = useQuery<
-    AdminType[],
+    ListResponse<AdminType>,
     CustomError
   >({
     queryKey: ["/admin/list"],
@@ -60,9 +52,9 @@ export default function UserList() {
       <Table
         loading={isLoading}
         columns={columns}
-        dataSource={isSuccess ? data : []}
+        dataSource={isSuccess ? data.list : []}
         scroll={{ x: 1000 }}
-        pagination={defaultPagination}
+        pagination={{ ...defaultPagination, total: data?.count }}
       />
     </div>
   );

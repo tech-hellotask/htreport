@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Table, Tag } from "antd";
 import { fetchOrders } from "../../net/order";
-import { OrderListItemType } from "../../utils/types";
+import { ListResponse, OrderListItemType } from "../../utils/types";
 import { ErrorAlert } from "../../lib/Alerts";
 import { CustomError } from "../../utils/errors";
 import { defaultPagination } from "../../utils/pagination";
@@ -29,7 +29,7 @@ export default function PaymentOrders() {
     id: "",
   });
   const { isSuccess, data, isLoading, isError, error } = useQuery<
-    OrderListItemType[],
+    ListResponse<OrderListItemType>,
     CustomError
   >({
     queryKey: [`/order/list?${objToQuery(params)}`],
@@ -117,11 +117,11 @@ export default function PaymentOrders() {
             key: "refund",
           },
         ]}
-        dataSource={isSuccess ? data : []}
+        dataSource={isSuccess ? data.list : []}
         scroll={{ x: "1200px", y: "calc(100vh - 240px)" }}
         pagination={{
           ...defaultPagination,
-          total: isSuccess ? params.limit + params.offset + 1 : 0,
+          total: data?.count,
         }}
         onChange={(
           pagination,

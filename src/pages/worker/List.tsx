@@ -1,7 +1,7 @@
 import { Table, Drawer, Image, Tag } from "antd";
 import { useState } from "react";
 import WorkerProfile from "./Profile";
-import { PaymentWorkerListItemType } from "../../utils/types";
+import { ListResponse, PaymentWorkerListItemType } from "../../utils/types";
 import { ExpandOutlined } from "@ant-design/icons";
 import { fetchWorkerList } from "../../net/worker";
 import { CustomError } from "../../utils/errors";
@@ -28,7 +28,7 @@ export default function WorkerList() {
   });
 
   const { isSuccess, data, isLoading, isError, error } = useQuery<
-    PaymentWorkerListItemType[],
+    ListResponse<PaymentWorkerListItemType>,
     CustomError
   >({
     queryKey: [`/worker?${objToQuery(params)}`],
@@ -171,11 +171,11 @@ export default function WorkerList() {
       <Table
         loading={isLoading}
         columns={columns}
-        dataSource={isSuccess ? data : []}
+        dataSource={isSuccess ? data.list : []}
         scroll={{ x: 1000, y: "calc(100vh - 240px)" }}
         pagination={{
           ...defaultPagination,
-          total: isSuccess ? params.limit + params.offset + 1 : 0,
+          total: isSuccess ? data.count : 0,
         }}
         onChange={(
           pagination,

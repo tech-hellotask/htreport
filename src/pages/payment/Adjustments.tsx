@@ -2,7 +2,7 @@ import { Table } from "antd";
 import CreateAdjustment from "../../components/payment/adjustment/create";
 import { ErrorAlert } from "../../lib/Alerts";
 import { defaultPagination } from "../../utils/pagination";
-import { AdjustmentType } from "./../../utils/types";
+import { AdjustmentType, ListResponse } from "./../../utils/types";
 import { fetchAdjustments } from "../../net/payment";
 import { useQuery } from "@tanstack/react-query";
 import { CustomError } from "../../utils/errors";
@@ -27,7 +27,7 @@ export default function PaymentAdjustment() {
     order_by: "created_at",
   });
   const { isSuccess, data, isLoading, isError, error } = useQuery<
-    AdjustmentType[],
+    ListResponse<AdjustmentType>,
     CustomError
   >({
     queryKey: [`/adjustment/list?${objToQuery(params)}`],
@@ -82,9 +82,9 @@ export default function PaymentAdjustment() {
       <Table
         loading={isLoading}
         columns={columns}
-        dataSource={isSuccess ? data : []}
+        dataSource={isSuccess ? data.list : []}
         scroll={{ x: 1000, y: "calc(100vh - 240px)" }}
-        pagination={defaultPagination}
+        pagination={{ ...defaultPagination, total: data?.count }}
         onChange={(
           pagination,
           filters,

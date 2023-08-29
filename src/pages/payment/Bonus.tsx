@@ -1,6 +1,6 @@
 import { Table } from "antd";
 import { fetchBonus } from "../../net/payment";
-import { BonusType } from "../../utils/types";
+import { BonusType, ListResponse } from "../../utils/types";
 import { defaultPagination } from "../../utils/pagination";
 import { ErrorAlert } from "../../lib/Alerts";
 import { useQuery } from "@tanstack/react-query";
@@ -9,6 +9,7 @@ import { dateSearchProps, useInputSearch } from "../../lib/searching.hooks";
 import { localDateTime, objToQuery } from "../../utils/func";
 import { useState } from "react";
 import { SorterResult } from "antd/es/table/interface";
+import WorkerMenu from "../../components/menu/worker";
 
 export default function Bonus() {
   const [params, setParams] = useState({
@@ -23,7 +24,7 @@ export default function Bonus() {
   const { getColumnSearchProps } = useInputSearch();
 
   const { isSuccess, data, isLoading, isError, error } = useQuery<
-    BonusType[],
+    ListResponse<BonusType>,
     CustomError
   >({
     queryKey: [`/bonus/list?${objToQuery(params)}`],
@@ -43,6 +44,7 @@ export default function Bonus() {
       dataIndex: "worker_id",
       key: "worker_id",
       ...getColumnSearchProps("worker_id"),
+      render: (id: number) => <WorkerMenu id={id} />,
     },
     {
       title: "Worker Name",
@@ -61,9 +63,9 @@ export default function Bonus() {
       ...getColumnSearchProps("bonus_amount"),
     },
     {
-      title: "Added By",
-      dataIndex: "added_by",
-      key: "added_by",
+      title: "Remarks",
+      dataIndex: "remarks",
+      key: "remarks",
     },
   ];
 
@@ -73,9 +75,9 @@ export default function Bonus() {
       <Table
         loading={isLoading}
         columns={columns}
-        dataSource={isSuccess ? data : []}
+        dataSource={isSuccess ? data.list : []}
         scroll={{ x: 1000, y: "calc(100vh - 240px)" }}
-        pagination={defaultPagination}
+        pagination={{ ...defaultPagination, total: isSuccess ? data.count : 0 }}
         onChange={(pagination, filters, sorter: SorterResult<BonusType>) => {
           setParams((prev) => {
             const temp = { ...prev };

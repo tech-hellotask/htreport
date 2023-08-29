@@ -135,6 +135,7 @@ export interface RoleType {
 
 export interface WorkerLedgerTypeItem {
   amount: number;
+  remarks?: string;
   created_at: string;
   order_type?: string;
   payment_status?: string;
@@ -204,6 +205,30 @@ export interface PaymentLogType {
   created_at: string;
 }
 
+export interface OrderDetailsPaymentType {
+  id: number;
+  method: string;
+  amount: number;
+  remarks: string;
+  tx_id: string;
+  status: string;
+  meta_info?: {
+    trxID?: string;
+    amount?: string;
+    intent?: string;
+    currency?: string;
+    paymentID?: string;
+    statusCode?: string;
+    agreementID?: string;
+    statusMessage?: string;
+    customerMsisdn?: string;
+    payerReference?: string;
+    transactionStatus?: string;
+    paymentExecuteTime?: string;
+    merchantInvoiceNumber?: string;
+  };
+}
+
 export interface OrderDetailsType {
   id: number;
   type: string;
@@ -211,7 +236,6 @@ export interface OrderDetailsType {
   service_id: number;
   service_name: string;
   status: string;
-  payment_status: string;
   area_id: number;
   created_at: string;
   updated_at?: string;
@@ -224,6 +248,7 @@ export interface OrderDetailsType {
   final_price: number;
   refund: number;
   workers: OrderDetailsWorker[];
+  payment: OrderDetailsPaymentType;
 }
 
 export interface OrderDetailsWorker {
@@ -241,4 +266,22 @@ export interface OrderDetailsWorker {
   due: number;
   status: string;
   updated_at?: string;
+}
+
+export type ListResponse<T> = {
+  list: T[];
+  count: number;
+};
+
+export interface CustomerPaymentListItem {
+  id: number;
+  order_id: number;
+  payment_method: string;
+  amount: number;
+  tx_id: string;
+  remarks: string;
+  status: string;
+  created_at: string;
+  updated_at: string;
+  meta_info: string;
 }

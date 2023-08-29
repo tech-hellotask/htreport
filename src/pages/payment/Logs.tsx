@@ -1,6 +1,6 @@
 import { Table, Tag } from "antd";
 import { useState } from "react";
-import { PaymentLogType } from "../../utils/types";
+import { ListResponse, PaymentLogType } from "../../utils/types";
 import { CustomError } from "../../utils/errors";
 import { useQuery } from "@tanstack/react-query";
 import { ErrorAlert } from "../../lib/Alerts";
@@ -26,10 +26,7 @@ export default function PaymentLogs() {
   });
 
   const { isSuccess, data, isLoading, isError, error } = useQuery<
-    {
-      list: PaymentLogType[];
-      count: number;
-    },
+    ListResponse<PaymentLogType>,
     CustomError
   >({
     queryKey: [`/payment/logs?${objToQuery(params)}`],
@@ -80,7 +77,7 @@ export default function PaymentLogs() {
         scroll={{ x: 1000, y: "calc(100vh - 240px)" }}
         pagination={{
           ...defaultPagination,
-          total: isSuccess ? params.limit + params.offset + 1 : 0,
+          total: isSuccess ? data.count : 0,
         }}
         onChange={(pagination, filters) => {
           const temp = { ...params };

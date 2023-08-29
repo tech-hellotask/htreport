@@ -54,6 +54,13 @@ export const fetchPaymentPayable = async ({
   return response.data;
 };
 
+export const fetchCustomerPayments = async ({
+  queryKey: [path],
+}: QueryOptions) => {
+  const response = await axios.get(path as string);
+  return response.data;
+};
+
 export const downloadWorkerPayments = async (account: string) => {
   const response = await axios.get(`/payment/init?account=${account}`, {
     responseType: "arraybuffer",
