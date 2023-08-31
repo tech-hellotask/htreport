@@ -25,6 +25,7 @@ import PaymentLogs from "./payment/Logs";
 import OrderDetails from "./order/Details";
 import CustomerPayments from "./payment/CustomerPayments";
 import ActivityLogs from "./activity_logs/list";
+import CustomerList from "./customer/List";
 
 // axios default config
 initAxiosSetup();
@@ -35,12 +36,16 @@ const routes = [
     element: <Home />,
   },
   {
+    path: "/login",
+    element: <Login />,
+  },
+  {
     path: "/users",
     element: <UserList />,
   },
   {
-    path: "/login",
-    element: <Login />,
+    path: "/customers",
+    element: <CustomerList />,
   },
   {
     path: "/worker/create",

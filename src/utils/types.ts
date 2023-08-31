@@ -233,6 +233,9 @@ export interface OrderDetailsType {
   id: number;
   type: string;
   customer_id: number;
+  customer_name: string;
+  customer_phone: string;
+  customer_email: string;
   service_id: number;
   service_name: string;
   status: string;
@@ -308,4 +311,14 @@ export interface ActivityLogType {
   type: string;
   created_at: string;
   req_info?: string;
+}
+
+export interface CustomerListItemType {
+  id: number;
+  name: string;
+  phone: string;
+  email: string;
+  address: string;
+  badge: string;
+  created_at: string;
 }

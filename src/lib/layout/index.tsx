@@ -15,6 +15,7 @@ import {
   SyncOutlined,
   ToolOutlined,
   TransactionOutlined,
+  UserOutlined,
   UserSwitchOutlined,
 } from "@ant-design/icons";
 import { NavLink } from "react-router-dom";
@@ -44,6 +45,7 @@ const menuItems = [
     icon: <HomeOutlined className="font-20" />,
     label: "Home",
     link: "/",
+    title: "Home",
   },
   {
     key: "payment",
@@ -118,11 +120,11 @@ const menuItems = [
     ],
   },
   {
-    key: "users",
-    icon: <UserSwitchOutlined className="font-20" />,
-    label: "Users",
-    link: "/users",
-    title: "Users",
+    key: "customers",
+    icon: <UserOutlined className="font-20" />,
+    label: "Customers",
+    link: "/customers",
+    title: "Customers",
   },
   {
     key: "workers",
@@ -158,6 +160,13 @@ const menuItems = [
     label: "Activity Logs",
     link: "/logs",
     title: "Activity Logs",
+  },
+  {
+    key: "users",
+    icon: <UserSwitchOutlined className="font-20" />,
+    label: "Users",
+    link: "/users",
+    title: "Users",
   },
 ].map((item) => getMenuItem(item));
 

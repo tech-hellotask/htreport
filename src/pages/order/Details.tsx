@@ -162,11 +162,43 @@ const CustomerPayment = ({ payment }: { payment: OrderDetailsPaymentType }) => {
     },
   ];
   return (
-    <Col span={24} lg={10}>
-      <div className="box-light">
-        <Descriptions title="Payment" items={items} />
-      </div>
-    </Col>
+    <div className="box-light">
+      <Descriptions title="Payment" items={items} />
+    </div>
+  );
+};
+
+const CustomerInfo = ({ order }: { order: OrderDetailsType }) => {
+  const items: DescriptionsProps["items"] = [
+    {
+      key: "1",
+      label: "ID",
+      children: order.customer_id,
+      span: 3,
+    },
+    {
+      key: "2",
+      label: "Name",
+      children: order.customer_name,
+      span: 3,
+    },
+    {
+      key: "3",
+      label: "Phone",
+      children: order.customer_phone,
+      span: 3,
+    },
+    {
+      key: "4",
+      label: "Email",
+      children: order.customer_email,
+      span: 3,
+    },
+  ];
+  return (
+    <div className="box-light">
+      <Descriptions title="Customer Info" items={items} />
+    </div>
   );
 };
 
@@ -188,7 +220,7 @@ export default function OrderDetails({ id: defaultId }: { id?: number }) {
 
   return (
     <Wrapper>
-      <Row gutter={16}>
+      <Row gutter={[16, 16]}>
         <Col span={24} lg={14}>
           <OrderDetailsCard order={query.data} />
           <div>Assigned Workers</div>
@@ -196,7 +228,11 @@ export default function OrderDetails({ id: defaultId }: { id?: number }) {
             <WorkerCard key={worker.id} worker={worker} />
           ))}
         </Col>
-        <CustomerPayment payment={query.data.payment} />
+        <Col span={24} lg={10}>
+          <CustomerInfo order={query.data} />
+          <br />
+          <CustomerPayment payment={query.data.payment} />
+        </Col>
       </Row>
     </Wrapper>
   );
