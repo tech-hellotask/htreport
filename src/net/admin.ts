@@ -1,6 +1,12 @@
 import axios from "axios";
 import { UserInputs } from "../components/user/Registration";
 import { RoleInputs } from "../components/user/CreateRole";
+import { LoginInputs } from "../components/user/LoginForm";
+
+export const loginAuth = async (values: LoginInputs) => {
+  const res = await axios.post("/admin/login", values);
+  return res.data;
+};
 
 export const fetchRoles = async () => {
   const response = await axios.get("/role/list");

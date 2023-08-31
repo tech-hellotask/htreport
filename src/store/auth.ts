@@ -28,7 +28,13 @@ export const authMe = createAsyncThunk("auth/me", async () => {
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    authSuccess: (state, action) => {
+      state.user = action.payload.user;
+      state.accessToken = action.payload.accessToken;
+      setToken(action.payload.accessToken);
+    },
+  },
   extraReducers: {
     [authLogin.pending.type]: (state) => {
       state.loading = true;
@@ -62,5 +68,6 @@ const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
+export const { authSuccess } = authSlice.actions;
 
 export type AuthType = ReturnType<typeof authSlice.reducer>;
