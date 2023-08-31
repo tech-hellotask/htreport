@@ -159,3 +159,20 @@ body {
 .font-20 {
   font-size: 20px !important;
 }
+
+.ant-table-body {
+  &::-webkit-scrollbar {
+    background: #cccccc;
+    width: 6px;
+    height: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #fff;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #adadad;
+    border-radius: 7px;
+  }
+}

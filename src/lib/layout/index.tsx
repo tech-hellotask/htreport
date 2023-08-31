@@ -152,6 +152,13 @@ const menuItems = [
     link: "/service",
     title: "Services",
   },
+  {
+    key: "activity_logs",
+    icon: <FileSearchOutlined className="font-20" />,
+    label: "Activity Logs",
+    link: "/logs",
+    title: "Activity Logs",
+  },
 ].map((item) => getMenuItem(item));
 
 export const LayoutContext = createContext<LayoutProps>({} as LayoutProps);

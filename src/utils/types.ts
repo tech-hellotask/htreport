@@ -285,3 +285,27 @@ export interface CustomerPaymentListItem {
   updated_at: string;
   meta_info: string;
 }
+
+export type BalanceReportType = {
+  order_value: number;
+  refund: number;
+  compensation: number;
+  service_charge: number;
+  discount: number;
+  vat: number;
+  adjustment: number;
+  bonus: number;
+  worker_commission: number;
+  worker_payment: number;
+  customer_payment: number;
+};
+
+export interface ActivityLogType {
+  id: number;
+  user_id: number;
+  user_email: string;
+  msg: string;
+  type: string;
+  created_at: string;
+  req_info?: string;
+}

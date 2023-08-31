@@ -24,6 +24,7 @@ import SyncPayments from "./payment/Sync";
 import PaymentLogs from "./payment/Logs";
 import OrderDetails from "./order/Details";
 import CustomerPayments from "./payment/CustomerPayments";
+import ActivityLogs from "./activity_logs/list";
 
 // axios default config
 initAxiosSetup();
@@ -92,6 +93,10 @@ const routes = [
   {
     path: "/service",
     element: <Service />,
+  },
+  {
+    path: "/logs",
+    element: <ActivityLogs />,
   },
 ];
 
