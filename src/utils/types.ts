@@ -36,6 +36,15 @@ export interface PaymentWorkerListItemType {
   payable: number;
 }
 
+export interface ServiceListItemType {
+  id: number;
+  name: string;
+  details: string;
+  is_active: boolean;
+  worker_category: string;
+  created_at: string;
+}
+
 export interface AdjustmentType {
   id: number;
   worker_id: number;
@@ -287,6 +296,8 @@ export interface CustomerPaymentListItem {
   created_at: string;
   updated_at: string;
   meta_info: string;
+  order_status: string;
+  order_final_price: number;
 }
 
 export type BalanceReportType = {
@@ -322,3 +333,9 @@ export interface CustomerListItemType {
   badge: string;
   created_at: string;
 }
+
+export const orderColors = {
+  Canceled: "red",
+  Completed: "green",
+  Rejected: "red",
+};

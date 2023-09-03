@@ -13,6 +13,12 @@ function BalanceReport({ data }: { data: BalanceReportType }) {
       span: 2,
     },
     {
+      key: "discount",
+      label: "Order Discount",
+      children: data.discount.toLocaleString(),
+      span: 2,
+    },
+    {
       key: "customer_payment",
       label: "Cash In Through Customer",
       children: data.customer_payment.toLocaleString(),
@@ -74,6 +80,15 @@ function BalanceReport({ data }: { data: BalanceReportType }) {
         data.adjustment +
         data.bonus -
         data.worker_payment,
+    },
+    {
+      key: "revenue",
+      label: "Total Revenue",
+      children: (
+        data.order_value -
+        data.worker_commission -
+        data.discount
+      ).toLocaleString(),
     },
   ];
 

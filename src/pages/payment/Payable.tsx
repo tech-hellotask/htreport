@@ -160,7 +160,7 @@ export default function PaymentWorkers() {
                 style={{ background: "rgb(227 48 35 / 68%)" }}
                 loading={mutation.isLoading && downloadType == "nagad"}
               >
-                Initiate Nagad Payment
+                Nagad Payment
               </Button>
               <Button
                 icon={<DownloadOutlined />}
@@ -172,7 +172,7 @@ export default function PaymentWorkers() {
                 style={{ background: "#e1126ed6" }}
                 loading={mutation.isLoading && downloadType == "bkash"}
               >
-                Initiate Bkash Payment
+                Bkash Payment
               </Button>
             </Space>
           </div>
@@ -180,11 +180,12 @@ export default function PaymentWorkers() {
           <UploadPayment />
         </Col>
         <Col span={24} lg={16}>
-          <div className="mb-10">
+          <div className="mb-10 flex">
             <Button
               onClick={() => downloadData(data)}
               icon={<DownloadOutlined />}
               type="primary"
+              className="ml-auto"
             >
               Download
             </Button>

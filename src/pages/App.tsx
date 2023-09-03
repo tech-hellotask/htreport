@@ -6,7 +6,7 @@ import UserList from "./user/UserList";
 import Login from "./login";
 import CreateWorker from "./worker/Create";
 import WorkerList from "./worker/List";
-import Service from "./service";
+import CreateService from "./service/Create";
 import PaymentWorkers from "./payment/Payable";
 import PaymentAdjustment from "./payment/Adjustments";
 import Bonus from "./payment/Bonus";
@@ -26,6 +26,7 @@ import OrderDetails from "./order/Details";
 import CustomerPayments from "./payment/CustomerPayments";
 import ActivityLogs from "./activity_logs/list";
 import CustomerList from "./customer/List";
+import ServiceList from "./service/List";
 
 // axios default config
 initAxiosSetup();
@@ -96,8 +97,12 @@ const routes = [
     element: <CustomerPayments />,
   },
   {
-    path: "/service",
-    element: <Service />,
+    path: "/service/create",
+    element: <CreateService />,
+  },
+  {
+    path: "/service/list",
+    element: <ServiceList />,
   },
   {
     path: "/logs",

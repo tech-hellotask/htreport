@@ -1,14 +1,68 @@
-import { Button, Popover, Table } from "antd";
-import { CustomerPaymentListItem, ListResponse } from "../../utils/types";
+import { Button, Popover, Table, Tag } from "antd";
+import {
+  CustomerPaymentListItem,
+  ListResponse,
+  orderColors,
+} from "../../utils/types";
 import { defaultPagination } from "../../utils/pagination";
 import { ErrorAlert } from "../../lib/Alerts";
 import { useQuery } from "@tanstack/react-query";
 import { CustomError } from "../../utils/errors";
 import { dateSearchProps, useInputSearch } from "../../lib/searching.hooks";
-import { localDateTime, objToQuery } from "../../utils/func";
+import { downloadCsv, localDateTime, objToQuery } from "../../utils/func";
 import { useState } from "react";
 import { SorterResult } from "antd/es/table/interface";
 import { fetchCustomerPayments } from "../../net/payment";
+import { DownloadOutlined } from "@ant-design/icons";
+
+const downloadCustomerPayments = (data: CustomerPaymentListItem[]) => {
+  downloadCsv(
+    [
+      {
+        header: [
+          {
+            title: "Created At",
+            key: "created_at",
+          },
+          {
+            title: "Order ID",
+            key: "order_id",
+          },
+          {
+            title: "Order Status",
+            key: "order_status",
+          },
+          {
+            title: "Order Final Price",
+            key: "order_final_price",
+          },
+          {
+            title: "Payment Method",
+            key: "payment_method",
+          },
+          {
+            title: "Amount",
+            key: "amount",
+          },
+          {
+            title: "Tx ID",
+            key: "tx_id",
+          },
+          {
+            title: "Remarks",
+            key: "remarks",
+          },
+          {
+            title: "Status",
+            key: "status",
+          },
+        ],
+        data: data,
+      },
+    ],
+    "customer_payments"
+  );
+};
 
 export default function CustomerPayments() {
   const [params, setParams] = useState({
@@ -47,10 +101,23 @@ export default function CustomerPayments() {
       render: (text: string) => localDateTime(text),
     },
     {
-      title: "Order ID",
+      title: "Order",
       dataIndex: "order_id",
       key: "order_id",
+      width: "200px",
       ...getColumnSearchProps("order_id"),
+      render: (
+        id,
+        { order_status, order_final_price }: CustomerPaymentListItem
+      ) => (
+        <div>
+          <div>id: {id}</div>
+          <div>
+            status: <Tag color={orderColors[order_status]}>{order_status}</Tag>
+          </div>
+          <div>price: {order_final_price}</div>
+        </div>
+      ),
     },
     {
       title: "Payment Method",
@@ -111,7 +178,16 @@ export default function CustomerPayments() {
 
   return (
     <div>
-      <ErrorAlert isError={isError} error={error} />
+      <div className="flex-between mb-10">
+        <Button
+          icon={<DownloadOutlined />}
+          type="primary"
+          onClick={() => downloadCustomerPayments(data.list)}
+        >
+          Download
+        </Button>
+        <ErrorAlert isError={isError} error={error} />
+      </div>
       <Table
         loading={isLoading}
         columns={columns}
@@ -141,6 +217,12 @@ export default function CustomerPayments() {
               temp.id = filters.id[0] as number;
             } else {
               temp.id = 0;
+            }
+
+            if (filters.order_id) {
+              temp.order_id = filters.order_id[0] as number;
+            } else {
+              temp.order_id = 0;
             }
 
             if (filters.amount) {
@@ -185,7 +267,7 @@ export default function CustomerPayments() {
               temp.order = "desc";
             }
 
-            return temp;
+            return { ...temp };
           });
         }}
       />

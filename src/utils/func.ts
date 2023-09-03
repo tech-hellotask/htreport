@@ -48,6 +48,7 @@ export function downloadCsv(segments: Segment[], filename = "export") {
             .map((k) => {
               let v = item[k] ?? "";
               if (typeof v === "boolean") v = v ? "Yes" : "No";
+              v = v.toString().replaceAll(",", ";");
               return v;
             })
             .join(",");
@@ -72,6 +73,11 @@ export function downloadCsvFromText(text, name) {
 
 export function localDateTime(date) {
   if (!date) return "-";
+
+  if (new Date(date).toString() === "Invalid Date") {
+    return date;
+  }
+
   return new Date(date).toLocaleString("en-GB", {
     day: "numeric",
     month: "short",

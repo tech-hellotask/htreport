@@ -1,7 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { Table, Tag } from "antd";
 import { fetchOrders } from "../../net/order";
-import { ListResponse, OrderListItemType } from "../../utils/types";
+import {
+  ListResponse,
+  OrderListItemType,
+  orderColors,
+} from "../../utils/types";
 import { ErrorAlert } from "../../lib/Alerts";
 import { CustomError } from "../../utils/errors";
 import { defaultPagination } from "../../utils/pagination";
@@ -10,12 +14,6 @@ import { useState } from "react";
 import { localDateTime, objToQuery } from "../../utils/func";
 import { SorterResult } from "antd/es/table/interface";
 import { Link } from "react-router-dom";
-
-const colors = {
-  Canceled: "red",
-  Completed: "green",
-  Rejected: "red",
-};
 
 export default function PaymentOrders() {
   const [params, setParams] = useState({
@@ -77,7 +75,7 @@ export default function PaymentOrders() {
             key: "status",
             ...getColumnSearchProps("status"),
             render: (status: string) => {
-              return <Tag color={colors[status]}>{status}</Tag>;
+              return <Tag color={orderColors[status]}>{status}</Tag>;
             },
           },
           {
@@ -134,31 +132,12 @@ export default function PaymentOrders() {
             temp.limit = pagination.pageSize;
             temp.offset = (pagination.current - 1) * pagination.pageSize;
 
-            if (filters.status?.length) {
-              temp.status = (filters.status[0] as string) || "";
-            } else {
-              temp.status = "";
-            }
-
-            if (filters.payment_status?.length) {
-              temp.payment_status = (filters.payment_status[0] as string) || "";
-            } else {
-              temp.payment_status = "";
-            }
-
-            if (sorter.order) {
-              temp.order = sorter.order === "ascend" ? "asc" : "desc";
-            } else {
-              temp.order = "";
-            }
-
-            if (filters.created_at?.length == 2) {
-              temp.start_date = (filters.created_at[0] as string) || "";
-              temp.end_date = (filters.created_at[1] as string) || "";
-            } else {
-              temp.start_date = "";
-              temp.end_date = "";
-            }
+            temp.id = filters.id?.[0] as string;
+            temp.status = filters.status?.[0] as string;
+            temp.payment_status = filters.payment_status?.[0] as string;
+            temp.order = sorter.order === "ascend" ? "asc" : "desc";
+            temp.start_date = filters.created_at?.[0] as string;
+            temp.end_date = filters.created_at?.[1] as string;
 
             return temp;
           });

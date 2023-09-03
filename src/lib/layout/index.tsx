@@ -151,15 +151,23 @@ const menuItems = [
     key: "services",
     icon: <ToolOutlined className="font-20" />,
     label: "Services",
-    link: "/service",
     title: "Services",
-  },
-  {
-    key: "activity_logs",
-    icon: <FileSearchOutlined className="font-20" />,
-    label: "Activity Logs",
-    link: "/logs",
-    title: "Activity Logs",
+    children: [
+      {
+        key: "service_list",
+        icon: <InsertRowAboveOutlined />,
+        label: "List",
+        link: "/service/list",
+        title: "Service > List",
+      },
+      {
+        key: "service_create",
+        icon: <PlusOutlined />,
+        label: "Add New",
+        link: "/service/create",
+        title: "Service > Create",
+      },
+    ],
   },
   {
     key: "users",
@@ -167,6 +175,13 @@ const menuItems = [
     label: "Users",
     link: "/users",
     title: "Users",
+  },
+  {
+    key: "activity_logs",
+    icon: <FileSearchOutlined className="font-20" />,
+    label: "Activity Logs",
+    link: "/logs",
+    title: "Activity Logs",
   },
 ].map((item) => getMenuItem(item));
 

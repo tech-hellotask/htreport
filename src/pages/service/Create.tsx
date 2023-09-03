@@ -304,7 +304,7 @@ function ServicePricing() {
   );
 }
 
-export default function Service() {
+export default function CreateService() {
   const [form] = Form.useForm();
   return (
     <Form form={form} layout="vertical">

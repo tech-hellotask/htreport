@@ -22,6 +22,7 @@ function Sidebar() {
         left: 0,
         top: 0,
         bottom: 0,
+        overflowX: "hidden",
       }}
       width={220}
       className="custom-scroll sidebar"
