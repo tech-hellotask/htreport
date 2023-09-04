@@ -1,6 +1,10 @@
-import { Card, Avatar, Descriptions, Col, Row } from "antd";
+import { Card, Avatar, Descriptions, Col, Row, Space } from "antd";
 import styled from "styled-components";
-import { OrderDetailsPaymentType, OrderDetailsType } from "../../utils/types";
+import {
+  OrderDetailsPaymentType,
+  OrderDetailsType,
+  OrderDetailsWorker,
+} from "../../utils/types";
 import type { DescriptionsProps } from "antd";
 import { localDateTime } from "../../utils/func";
 import { useQuery } from "@tanstack/react-query";
@@ -8,8 +12,9 @@ import { useParams } from "react-router-dom";
 import { CustomError } from "../../utils/errors";
 import { ErrorAlert } from "../../lib/Alerts";
 import { fetchOrder } from "../../net/order";
+import WorkerMenu from "../../components/menu/worker";
 
-const WorkerCard = ({ worker }) => {
+const WorkerCard = ({ worker }: { worker: OrderDetailsWorker }) => {
   const items: DescriptionsProps["items"] = [
     {
       key: "4",
@@ -48,9 +53,17 @@ const WorkerCard = ({ worker }) => {
       }}
     >
       <Card.Meta
-        avatar={<Avatar src={worker.worker.image} />}
-        title={`${worker.worker.name} (${worker.worker.id})`}
-        description={`Phone: ${worker.worker.phone}`}
+        avatar={<Avatar src={worker.worker_image} />}
+        title={
+          <Space>
+            <WorkerMenu
+              id={worker.worker_id}
+              children={`${worker.worker_name} (${worker.worker_id})`}
+              center={false}
+            />
+          </Space>
+        }
+        description={`Phone: ${worker.worker_phone}`}
       />
       <Descriptions style={{ marginTop: "30px" }} items={items} />
     </Card>

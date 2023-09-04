@@ -266,12 +266,9 @@ export interface OrderDetailsType {
 export interface OrderDetailsWorker {
   id: number;
   worker_id: number;
-  worker: {
-    id: number;
-    name: string;
-    phone: string;
-    image: string;
-  };
+  worker_name: string;
+  worker_phone: string;
+  worker_image: string;
   commission_type: string;
   commission_amount: number;
   commission: number;

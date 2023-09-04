@@ -8,11 +8,13 @@ export default function WorkerMenu({
   id,
   name,
   phone,
+  center = true,
 }: {
   children?: React.ReactNode;
   id: number | string;
   name?: string;
   phone?: string;
+  center?: boolean;
 }) {
   const items: MenuProps["items"] = [
     {
@@ -38,7 +40,9 @@ export default function WorkerMenu({
   return (
     <div style={{ cursor: "pointer" }}>
       <Dropdown menu={{ items }} trigger={["click"]}>
-        <Styles>{children || id}</Styles>
+        <Styles style={{ textAlign: center ? "center" : "left" }}>
+          {children || id}
+        </Styles>
       </Dropdown>
     </div>
   );
@@ -46,7 +50,6 @@ export default function WorkerMenu({
 
 const Styles = styled.div`
   transition: all 0.2s ease-in-out;
-  text-align: center;
 
   &:hover {
     scale: 1.1;
