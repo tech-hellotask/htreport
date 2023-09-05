@@ -17,24 +17,14 @@ import WorkerMenu from "../../components/menu/worker";
 const WorkerCard = ({ worker }: { worker: OrderDetailsWorker }) => {
   const items: DescriptionsProps["items"] = [
     {
-      key: "4",
-      label: "Commission Type",
-      children: worker.commission_type,
-    },
-    {
-      key: "5",
-      label: "Commission Amount",
-      children: worker.commission_amount,
+      key: "1",
+      label: "Date & Time",
+      children: localDateTime(worker.created_at),
     },
     {
       key: "6",
       label: "Commission",
       children: worker.commission,
-    },
-    {
-      key: "7",
-      label: "Due",
-      children: worker.due,
     },
     {
       key: "8",
@@ -85,7 +75,7 @@ const OrderDetailsCard = ({ order }) => {
     {
       key: "11",
       label: "Work Hour",
-      children: order.work_hour,
+      children: order.work_hour.toFixed(2) + " Hr",
     },
     {
       key: "12",
@@ -234,7 +224,7 @@ export default function OrderDetails({ id: defaultId }: { id?: number }) {
   return (
     <Wrapper>
       <Row gutter={[16, 16]}>
-        <Col span={24} lg={14}>
+        <Col span={24} lg={14} className="scrollable custom-scroll">
           <OrderDetailsCard order={query.data} />
           <div>Assigned Workers</div>
           {query.data.workers.map((worker) => (
@@ -251,4 +241,8 @@ export default function OrderDetails({ id: defaultId }: { id?: number }) {
   );
 }
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  .scrollable {
+    height: calc(100vh - 100px);
+  }
+`;

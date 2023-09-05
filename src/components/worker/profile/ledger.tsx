@@ -8,6 +8,7 @@ import { ErrorAlert } from "../../../lib/Alerts";
 import { localDateTime } from "../../../utils/func";
 import { useState } from "react";
 import { dateSearchProps } from "../../../lib/searching.hooks";
+import { Link } from "react-router-dom";
 
 export default function WorkerLedger({ id }: { id: string | number }) {
   const [date, setDate] = useState<string[]>([]);
@@ -49,6 +50,8 @@ export default function WorkerLedger({ id }: { id: string | number }) {
         payment_status,
         order_type,
         remarks,
+        order_id,
+        status,
       }: WorkerLedgerTypeItem) => {
         return (
           <div>
@@ -62,6 +65,12 @@ export default function WorkerLedger({ id }: { id: string | number }) {
                 Payment Status: {payment_status}
               </div>
             )}
+            {order_id > 0 && (
+              <Link to={`/order/${order_id}`} className="order_id">
+                Order ID: {order_id}
+              </Link>
+            )}
+            {status && <div className="status">Status: {status}</div>}
             {order_type && (
               <div className="order_type">Order Type: {order_type}</div>
             )}

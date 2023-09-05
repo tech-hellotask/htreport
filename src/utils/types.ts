@@ -146,6 +146,7 @@ export interface WorkerLedgerTypeItem {
   amount: number;
   remarks?: string;
   created_at: string;
+  order_id?: number;
   order_type?: string;
   payment_status?: string;
   status?: string;
@@ -247,6 +248,11 @@ export interface OrderDetailsType {
   customer_email: string;
   service_id: number;
   service_name: string;
+  worker_commission_type: string;
+  worker_commission_amount: number;
+  service_charge_type: string;
+  service_charge_amount: number;
+  rate_per_work: number;
   status: string;
   area_id: number;
   created_at: string;
@@ -269,12 +275,10 @@ export interface OrderDetailsWorker {
   worker_name: string;
   worker_phone: string;
   worker_image: string;
-  commission_type: string;
-  commission_amount: number;
   commission: number;
-  due: number;
   status: string;
-  updated_at?: string;
+  created_at: string;
+  updated_at: string;
 }
 
 export type ListResponse<T> = {
