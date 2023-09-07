@@ -52,6 +52,7 @@ export default function WorkerLedger({ id }: { id: string | number }) {
         remarks,
         order_id,
         status,
+        order_status,
       }: WorkerLedgerTypeItem) => {
         return (
           <div>
@@ -67,7 +68,7 @@ export default function WorkerLedger({ id }: { id: string | number }) {
             )}
             {order_id > 0 && (
               <Link to={`/order/${order_id}`} className="order_id">
-                Order ID: {order_id}
+                Order: {order_id} ({order_status})
               </Link>
             )}
             {status && <div className="status">Status: {status}</div>}
@@ -82,8 +83,16 @@ export default function WorkerLedger({ id }: { id: string | number }) {
     {
       title: "Debit",
       key: "debit",
-      render: ({ amount, tx_type }: WorkerLedgerTypeItem) =>
-        tx_type === "debit" ? amount.toString() + " BDT" : "-",
+      render: ({ amount, tx_type, is_delete }: WorkerLedgerTypeItem) =>
+        tx_type === "debit" ? (
+          is_delete ? (
+            <del>{amount.toString()}</del>
+          ) : (
+            amount.toString() + " BDT"
+          )
+        ) : (
+          "-"
+        ),
     },
     {
       title: "Credit",

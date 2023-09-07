@@ -25,6 +25,7 @@ export default function PaymentOrders() {
     status: "",
     payment_status: "",
     id: "",
+    type: "",
   });
   const { isSuccess, data, isLoading, isError, error } = useQuery<
     ListResponse<OrderListItemType>,
@@ -68,6 +69,16 @@ export default function PaymentOrders() {
             title: "Type",
             dataIndex: "type",
             key: "type",
+            filters: [
+              {
+                text: "Instant",
+                value: "instant",
+              },
+              {
+                text: "Package",
+                value: "package",
+              },
+            ],
           },
           {
             title: "Status",
@@ -133,6 +144,7 @@ export default function PaymentOrders() {
             temp.offset = (pagination.current - 1) * pagination.pageSize;
 
             temp.id = filters.id?.[0] as string;
+            temp.type = filters.type?.[0] as string;
             temp.status = filters.status?.[0] as string;
             temp.payment_status = filters.payment_status?.[0] as string;
             temp.order = sorter.order === "ascend" ? "asc" : "desc";

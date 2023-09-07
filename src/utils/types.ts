@@ -147,6 +147,7 @@ export interface WorkerLedgerTypeItem {
   remarks?: string;
   created_at: string;
   order_id?: number;
+  order_status?: string;
   order_type?: string;
   payment_status?: string;
   status?: string;
@@ -155,6 +156,7 @@ export interface WorkerLedgerTypeItem {
   note?: string;
   tx_id?: string;
   tx_type?: "debit" | "credit";
+  is_delete?: boolean;
 }
 
 export interface WorkerLedgerType {
