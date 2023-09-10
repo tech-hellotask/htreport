@@ -54,12 +54,42 @@ export default function CustomerList() {
       key: "phone",
       ...getColumnSearchProps("phone"),
     },
+    // {
+    //   title: "Badge",
+    //   dataIndex: "badge",
+    //   key: "badge",
+    //   ...getColumnSearchProps("badge"),
+    //   render: (badge: string) => <Tag>{badge}</Tag>,
+    // },
     {
-      title: "Badge",
-      dataIndex: "badge",
-      key: "badge",
-      ...getColumnSearchProps("badge"),
-      render: (badge: string) => <Tag>{badge}</Tag>,
+      title: "Orders",
+      dataIndex: "id",
+      key: "orders",
+      render: (id: number) => (
+        <Link to={`/order/list?customer_id=${id}`}>Orders</Link>
+      ),
+    },
+    {
+      title: "Total Order Value",
+      dataIndex: "order_value",
+      key: "order_value",
+      render: (order_value: number) => (
+        <Tag color="black">{order_value.toFixed()} BDT</Tag>
+      ),
+    },
+    {
+      title: "Total Paid",
+      dataIndex: "paid",
+      key: "paid",
+      render: (paid: number) => <Tag color="blue">{paid.toFixed()} BDT</Tag>,
+    },
+    {
+      title: "Due",
+      dataIndex: "due",
+      key: "due",
+      render: (due: number) => (
+        <Tag color={due >= 1 ? "red" : "green"}>{due.toFixed(2)} BDT</Tag>
+      ),
     },
     {
       title: "Joined At",

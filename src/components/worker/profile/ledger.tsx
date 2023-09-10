@@ -1,4 +1,4 @@
-import { Col, Space, Table } from "antd";
+import { Col, Space, Table, Tag } from "antd";
 import { styled } from "styled-components";
 import { WorkerLedgerType, WorkerLedgerTypeItem } from "../../../utils/types";
 import { CustomError } from "../../../utils/errors";
@@ -86,9 +86,11 @@ export default function WorkerLedger({ id }: { id: string | number }) {
       render: ({ amount, tx_type, is_delete }: WorkerLedgerTypeItem) =>
         tx_type === "debit" ? (
           is_delete ? (
-            <del>{amount.toString()}</del>
+            <Tag color="red">
+              <del>{amount.toString()} BDT</del>
+            </Tag>
           ) : (
-            amount.toString() + " BDT"
+            <Tag color="green">{amount.toString()} BDT</Tag>
           )
         ) : (
           "-"
@@ -98,7 +100,11 @@ export default function WorkerLedger({ id }: { id: string | number }) {
       title: "Credit",
       key: "credit",
       render: ({ amount, tx_type }: WorkerLedgerTypeItem) =>
-        tx_type === "credit" ? amount.toString() + " BDT" : "-",
+        tx_type === "credit" ? (
+          <Tag color="green">{amount.toString()} BDT</Tag>
+        ) : (
+          "-"
+        ),
     },
   ];
 

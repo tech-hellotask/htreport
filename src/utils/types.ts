@@ -224,6 +224,7 @@ export interface OrderDetailsPaymentType {
   remarks: string;
   tx_id: string;
   status: string;
+  created_at: string;
   meta_info?: {
     trxID?: string;
     amount?: string;
@@ -274,11 +275,14 @@ export interface OrderDetailsType {
 export interface OrderDetailsWorker {
   id: number;
   worker_id: number;
+  status: string;
+  is_backup: boolean;
   worker_name: string;
   worker_phone: string;
   worker_image: string;
   commission: number;
-  status: string;
+  start_time: string;
+  end_time: string;
   created_at: string;
   updated_at: string;
 }
@@ -299,6 +303,7 @@ export interface CustomerPaymentListItem {
   created_at: string;
   updated_at: string;
   meta_info: string;
+  customer_id: number;
   order_status: string;
   order_final_price: number;
 }
@@ -335,6 +340,9 @@ export interface CustomerListItemType {
   address: string;
   badge: string;
   created_at: string;
+  paid: number;
+  order_value: number;
+  due: number;
 }
 
 export const orderColors = {

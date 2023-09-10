@@ -14,6 +14,7 @@ import { useState } from "react";
 import { SorterResult } from "antd/es/table/interface";
 import { fetchCustomerPayments } from "../../net/payment";
 import { DownloadOutlined } from "@ant-design/icons";
+import OrderMenu from "../../components/menu/order";
 
 const downloadCustomerPayments = (data: CustomerPaymentListItem[]) => {
   downloadCsv(
@@ -101,6 +102,11 @@ export default function CustomerPayments() {
       render: (text: string) => localDateTime(text),
     },
     {
+      title: "CustomerID",
+      dataIndex: "customer_id",
+      key: "customer_id",
+    },
+    {
       title: "Order",
       dataIndex: "order_id",
       key: "order_id",
@@ -111,7 +117,9 @@ export default function CustomerPayments() {
         { order_status, order_final_price }: CustomerPaymentListItem
       ) => (
         <div>
-          <div>id: {id}</div>
+          <OrderMenu center={false} id={id}>
+            ID: {id}
+          </OrderMenu>
           <div>
             status: <Tag color={orderColors[order_status]}>{order_status}</Tag>
           </div>

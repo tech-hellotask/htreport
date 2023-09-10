@@ -26,6 +26,12 @@ export const objToQuery = (obj) => {
   return query;
 };
 
+export const urlToObj = (url = document.location.href) => {
+  const query = url.split("?")[1];
+  const obj = Object.fromEntries(new URLSearchParams(query));
+  return obj;
+};
+
 type Segment = {
   title?: string;
   header: { key: string; title: string }[];

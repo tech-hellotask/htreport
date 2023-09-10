@@ -11,9 +11,9 @@ import { CustomError } from "../../utils/errors";
 import { defaultPagination } from "../../utils/pagination";
 import { dateSearchProps, useInputSearch } from "../../lib/searching.hooks";
 import { useState } from "react";
-import { localDateTime, objToQuery } from "../../utils/func";
+import { localDateTime, objToQuery, urlToObj } from "../../utils/func";
 import { SorterResult } from "antd/es/table/interface";
-import { Link } from "react-router-dom";
+import OrderMenu from "../../components/menu/order";
 
 export default function PaymentOrders() {
   const [params, setParams] = useState({
@@ -25,7 +25,9 @@ export default function PaymentOrders() {
     status: "",
     payment_status: "",
     id: "",
+    customer_id: "",
     type: "",
+    ...urlToObj(window.location.search),
   });
   const { isSuccess, data, isLoading, isError, error } = useQuery<
     ListResponse<OrderListItemType>,
@@ -58,12 +60,14 @@ export default function PaymentOrders() {
             key: "id",
             ...getColumnSearchProps("id"),
             render: (id: string) => {
-              return (
-                <Link target="__blank" to={`/order/${id}`}>
-                  {id}
-                </Link>
-              );
+              return <OrderMenu id={id} />;
             },
+          },
+          {
+            title: "Customer ID",
+            dataIndex: "customer_id",
+            key: "customer_id",
+            ...getColumnSearchProps("customer_id"),
           },
           {
             title: "Type",
@@ -144,6 +148,7 @@ export default function PaymentOrders() {
             temp.offset = (pagination.current - 1) * pagination.pageSize;
 
             temp.id = filters.id?.[0] as string;
+            temp.customer_id = filters.customer_id?.[0] as string;
             temp.type = filters.type?.[0] as string;
             temp.status = filters.status?.[0] as string;
             temp.payment_status = filters.payment_status?.[0] as string;
@@ -151,6 +156,8 @@ export default function PaymentOrders() {
             temp.start_date = filters.created_at?.[0] as string;
             temp.end_date = filters.created_at?.[1] as string;
 
+            // push to history
+            window.history.pushState({}, "", `/order/list?${objToQuery(temp)}`);
             return temp;
           });
         }}

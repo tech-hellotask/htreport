@@ -64,7 +64,7 @@ export default function WorkerList() {
         <div className="table-image">
           <Image
             preview={true}
-            src={`https://htmind.live/storage/maids/${
+            src={`https://htmind.live/storage/${
               image || "f55d607f26c0b57327b898e8ea54cbfc.jpg"
             }`}
             alt=""
