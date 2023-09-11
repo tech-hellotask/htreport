@@ -12,7 +12,7 @@ import PaymentAdjustment from "./payment/Adjustments";
 import Bonus from "./payment/Bonus";
 import OrderList from "./order/List";
 import PaymentTransactions from "./payment/Transactions";
-import WorkerProfile from "./worker/Profile";
+import WorkerProfile from "./worker";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { AuthType } from "../store/auth";
@@ -27,6 +27,8 @@ import CustomerPayments from "./payment/CustomerPayments";
 import ActivityLogs from "./activity_logs/list";
 import CustomerList from "./customer/List";
 import ServiceList from "./service/List";
+import WorkerOrders from "./worker/Orders";
+import WorkerLedger from "./worker/Ledger";
 
 // axios default config
 initAxiosSetup();
@@ -57,8 +59,16 @@ const routes = [
     element: <WorkerList />,
   },
   {
-    path: "/worker/:id/profile",
+    path: "/worker/:id",
     element: <WorkerProfile />,
+  },
+  {
+    path: "/worker/:id/ledger",
+    element: <WorkerLedger />,
+  },
+  {
+    path: "/worker/:id/orders",
+    element: <WorkerOrders />,
   },
   {
     path: "/payment/payable",

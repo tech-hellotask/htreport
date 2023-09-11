@@ -93,6 +93,21 @@ export interface OrderListItemType {
   refund: number;
 }
 
+export interface WorkerOrderListItemType {
+  id: number;
+  commission: number;
+  type: string;
+  status: string;
+  order_status: string;
+  is_backup: boolean;
+  is_paid: boolean;
+  start_time: string;
+  end_time: string;
+  created_at: string;
+  payment_status: string;
+  final_price: number;
+}
+
 export interface OrderType {
   id: number;
   pid: number;
@@ -149,6 +164,8 @@ export interface WorkerLedgerTypeItem {
   order_id?: number;
   order_status?: string;
   order_type?: string;
+  is_backup?: boolean;
+  is_paid?: boolean;
   payment_status?: string;
   status?: string;
   type: string;
@@ -277,6 +294,7 @@ export interface OrderDetailsWorker {
   worker_id: number;
   status: string;
   is_backup: boolean;
+  is_paid: boolean;
   worker_name: string;
   worker_phone: string;
   worker_image: string;

@@ -11,8 +11,11 @@ import OrderDetailsCard from "../../components/order/details/OrderDetailsCard";
 import CustomerPayment from "../../components/order/details/CustomerPayment";
 import CustomerInfo from "../../components/order/details/CustomerInfo";
 
-export default function OrderDetails({ id: defaultId }: { id?: number }) {
-  const { id = defaultId } = useParams();
+export default function OrderDetails({ id }: { id?: number }) {
+  const { id: orderId } = useParams();
+  if (!id) {
+    id = Number(orderId);
+  }
   const query = useQuery<OrderDetailsType, CustomError>({
     queryKey: [`/order/${id}`],
     queryFn: fetchOrder,

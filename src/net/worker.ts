@@ -28,3 +28,8 @@ export const fetchWorkerList = async ({ queryKey: [path] }: QueryOptions) => {
   const response = await axios.get(path as string);
   return response.data;
 };
+
+export const fetchWorkerOrders = async ({ queryKey: [path] }: QueryOptions) => {
+  const response = await axios.get(path as string);
+  return response.data;
+};

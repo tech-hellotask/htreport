@@ -15,7 +15,7 @@ import { localDateTime, objToQuery, urlToObj } from "../../utils/func";
 import { SorterResult } from "antd/es/table/interface";
 import OrderMenu from "../../components/menu/order";
 
-export default function PaymentOrders() {
+export default function OrderList() {
   const [params, setParams] = useState({
     limit: 100,
     offset: 0,

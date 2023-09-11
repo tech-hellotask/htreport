@@ -2,7 +2,7 @@ import { Drawer, Dropdown, MenuProps } from "antd";
 import { ExpandOutlined, UserOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import WorkerProfile from "../../pages/worker/Profile";
+import WorkerProfile from "../../pages/worker";
 import { useState } from "react";
 
 export default function WorkerMenu({
@@ -18,16 +18,20 @@ export default function WorkerMenu({
   phone?: string;
   center?: boolean;
 }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState("");
   const items: MenuProps["items"] = [
     {
-      label: <Link to={`/worker/${id}/profile`}>Profile</Link>,
-      icon: <UserOutlined />,
-      key: "profile",
+      label: (
+        <div className="flex-between" onClick={() => setOpen("profile")}>
+          Open Here
+        </div>
+      ),
+      icon: <ExpandOutlined />,
+      key: "open",
     },
     {
-      label: <div onClick={() => setOpen(true)}>Open</div>,
-      icon: <ExpandOutlined />,
+      label: <Link to={`/worker/${id}`}>Go To Profile</Link>,
+      icon: <UserOutlined />,
       key: "ledger",
     },
   ];
@@ -55,11 +59,12 @@ export default function WorkerMenu({
       {open && (
         <Drawer
           title="Worker Profile"
-          open={open}
-          onClose={() => setOpen(false)}
+          open={open !== ""}
+          onClose={() => setOpen("")}
           width={1200}
+          style={{ backgroundColor: "#f6f6f6" }}
         >
-          <WorkerProfile id={Number(id)} />
+          {open === "profile" && <WorkerProfile id={Number(id)} />}
         </Drawer>
       )}
     </div>

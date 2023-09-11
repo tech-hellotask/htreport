@@ -35,6 +35,11 @@ const WorkerCard = ({ worker }: { worker: OrderDetailsWorker }) => {
       label: "Is Backup",
       children: worker.is_backup ? <Tag color="black">Backup</Tag> : "No",
     },
+    {
+      key: "3",
+      label: "Payment Status",
+      children: worker.is_paid ? <Tag color="black">Paid</Tag> : "Unpaid",
+    },
   ];
 
   return (

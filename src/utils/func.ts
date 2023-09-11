@@ -115,3 +115,7 @@ export function getTimeAgo(date: string | number | Date) {
     return localDateTime(date); // Return the date in a different format if it's older than 7 days
   }
 }
+
+export const pushState = (url: string) => {
+  window.history.pushState({}, "", url);
+};

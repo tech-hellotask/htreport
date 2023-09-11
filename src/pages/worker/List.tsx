@@ -1,8 +1,6 @@
-import { Table, Drawer, Image, Tag } from "antd";
+import { Table, Image, Tag } from "antd";
 import { useState } from "react";
-import WorkerProfile from "./Profile";
 import { ListResponse, PaymentWorkerListItemType } from "../../utils/types";
-import { ExpandOutlined } from "@ant-design/icons";
 import { fetchWorkerList } from "../../net/worker";
 import { CustomError } from "../../utils/errors";
 import { useQuery } from "@tanstack/react-query";
@@ -14,7 +12,6 @@ import { objToQuery } from "../../utils/func";
 import WorkerMenu from "../../components/menu/worker";
 
 export default function WorkerList() {
-  const [workerProfileId, setWorkerProfileId] = useState<number | null>(null);
   const [params, setParams] = useState({
     limit: 100,
     offset: 0,
@@ -39,20 +36,10 @@ export default function WorkerList() {
 
   const columns = [
     {
-      title: "",
-      dataIndex: "id",
-      key: "pid",
-      render: (id: number) => (
-        <ExpandOutlined
-          style={{ fontSize: "20px" }}
-          onClick={() => setWorkerProfileId(id)}
-        />
-      ),
-    },
-    {
       title: "ID",
       dataIndex: "id",
       key: "id",
+      width: "80px",
       ...getColumnSearchProps("id"),
       render: (id: number, { name }) => <WorkerMenu id={id} name={name} />,
     },
@@ -60,6 +47,7 @@ export default function WorkerList() {
       title: "Image",
       dataIndex: "image",
       key: "image",
+      width: "80px",
       render: (image: string) => (
         <div className="table-image">
           <Image
@@ -140,6 +128,7 @@ export default function WorkerList() {
       title: "Total Bonus",
       dataIndex: "total_bonus",
       key: "total_bonus",
+      width: "100px",
       render: (bonus: number = 0) => bonus.toFixed(0),
     },
     {
@@ -153,12 +142,14 @@ export default function WorkerList() {
       title: "Total Paid",
       dataIndex: "total_paid",
       key: "total_paid",
+      width: "100px",
       render: (paid: number = 0) => paid.toFixed(0),
     },
     {
       title: "Payable",
       dataIndex: "payable",
       key: "payable",
+      width: "100px",
       sorter: (a: PaymentWorkerListItemType, b: PaymentWorkerListItemType) =>
         a.payable - b.payable,
       render: (payable: number = 0) => payable.toFixed(0),
@@ -197,16 +188,6 @@ export default function WorkerList() {
           setParams(tempParams);
         }}
       />
-      <Drawer
-        title="Worker Profile"
-        placement="right"
-        closable={true}
-        onClose={() => setWorkerProfileId(null)}
-        open={!!workerProfileId}
-        width={Math.min(1200, window.innerWidth)}
-      >
-        <WorkerProfile id={workerProfileId!} />
-      </Drawer>
     </div>
   );
 }

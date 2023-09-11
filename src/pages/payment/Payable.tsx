@@ -1,6 +1,6 @@
 import { Table, Drawer, Space, Button, Tag, Row, Col } from "antd";
 import { useState } from "react";
-import WorkerProfile from "../worker/Profile";
+import WorkerProfile from "../worker";
 import { PaymentPayableType } from "../../utils/types";
 import { downloadWorkerPayments, fetchPaymentPayable } from "../../net/payment";
 import { CustomError } from "../../utils/errors";

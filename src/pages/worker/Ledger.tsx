@@ -1,17 +1,21 @@
-import { Col, Space, Table, Tag } from "antd";
+import { Space, Table, Tag } from "antd";
 import { styled } from "styled-components";
-import { WorkerLedgerType, WorkerLedgerTypeItem } from "../../../utils/types";
-import { CustomError } from "../../../utils/errors";
-import { getWorkerLedgerById } from "../../../net/worker";
 import { useQuery } from "@tanstack/react-query";
-import { ErrorAlert } from "../../../lib/Alerts";
-import { localDateTime } from "../../../utils/func";
 import { useState } from "react";
-import { dateSearchProps } from "../../../lib/searching.hooks";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { getWorkerLedgerById } from "../../net/worker";
+import { WorkerLedgerType, WorkerLedgerTypeItem } from "../../utils/types";
+import { CustomError } from "../../utils/errors";
+import { dateSearchProps } from "../../lib/searching.hooks";
+import { localDateTime } from "../../utils/func";
+import { ErrorAlert } from "../../lib/Alerts";
 
-export default function WorkerLedger({ id }: { id: string | number }) {
+export default function WorkerLedger({ id }: { id?: string | number }) {
   const [date, setDate] = useState<string[]>([]);
+  const { id: workerId } = useParams<{ id: string }>();
+  if (!id) {
+    id = Number(workerId);
+  }
   const { isLoading, data, isError, error, isSuccess } = useQuery<
     WorkerLedgerType,
     CustomError
@@ -53,6 +57,8 @@ export default function WorkerLedger({ id }: { id: string | number }) {
         order_id,
         status,
         order_status,
+        is_backup,
+        is_paid,
       }: WorkerLedgerTypeItem) => {
         return (
           <div>
@@ -76,6 +82,16 @@ export default function WorkerLedger({ id }: { id: string | number }) {
               <div className="order_type">Order Type: {order_type}</div>
             )}
             {remarks && <div className="remarks">Remarks: {remarks}</div>}
+            {is_backup && (
+              <div className="is_backup">
+                Is Backup: <Tag color="black">Backup</Tag>
+              </div>
+            )}
+            {!!is_paid && (
+              <div className="is_paid">
+                Is Paid: {is_paid ? "Paid" : "Unpaid"}
+              </div>
+            )}
           </div>
         );
       },
@@ -109,14 +125,14 @@ export default function WorkerLedger({ id }: { id: string | number }) {
   ];
 
   return (
-    <Wrapper span={24} xl={18}>
+    <Wrapper>
       <ErrorAlert error={error} isError={isError} />
       <Table
         loading={isLoading}
         columns={columns}
         dataSource={isSuccess && data && data.items ? data.items : []}
         scroll={{
-          y: "calc(100vh - 220px)",
+          y: "calc(100vh - 290px)",
           x: "800px",
         }}
         pagination={false}
@@ -142,7 +158,7 @@ export default function WorkerLedger({ id }: { id: string | number }) {
   );
 }
 
-const Wrapper = styled(Col)`
+const Wrapper = styled.div`
   .ant-table-container {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   }
