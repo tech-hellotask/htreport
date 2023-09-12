@@ -61,10 +61,19 @@ export const fetchCustomerPayments = async ({
   return response.data;
 };
 
-export const downloadWorkerPayments = async (account: string) => {
-  const response = await axios.get(`/payment/init?account=${account}`, {
-    responseType: "arraybuffer",
-  });
+export const downloadWorkerPayments = async ({
+  account,
+  ids,
+}: {
+  account: string;
+  ids: number[];
+}) => {
+  const response = await axios.get(
+    `/payment/init?account=${account}&ids=${ids}`,
+    {
+      responseType: "arraybuffer",
+    }
+  );
 
   const url = URL.createObjectURL(
     new Blob([response.data], {

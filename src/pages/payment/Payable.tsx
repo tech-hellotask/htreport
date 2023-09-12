@@ -13,9 +13,11 @@ import { DownloadOutlined } from "@ant-design/icons";
 import { downloadCsv } from "../../utils/func";
 import PaymentLatestLog from "../../components/payment/transaction/log";
 import MobileAccountLogo from "../../lib/MobileAccountLogo";
+import useRowSelection from "../../lib/useRowSelection";
 
 export default function PaymentWorkers() {
   const [workerProfileId, setWorkerProfileId] = useState<number | null>(null);
+  const { rowSelection, selectedRowKeys } = useRowSelection<number>();
   const { isSuccess, data, isLoading, isError, error } = useQuery<
     PaymentPayableType[],
     CustomError
@@ -153,7 +155,7 @@ export default function PaymentWorkers() {
               <Button
                 icon={<DownloadOutlined />}
                 onClick={() => {
-                  mutation.mutate("নগদ");
+                  mutation.mutate({ account: "নগদ", ids: selectedRowKeys });
                   setDownloadType("nagad");
                 }}
                 type="primary"
@@ -165,7 +167,7 @@ export default function PaymentWorkers() {
               <Button
                 icon={<DownloadOutlined />}
                 onClick={() => {
-                  mutation.mutate("বিকাশ");
+                  mutation.mutate({ account: "বিকাশ", ids: selectedRowKeys });
                   setDownloadType("bkash");
                 }}
                 type="primary"
@@ -191,9 +193,10 @@ export default function PaymentWorkers() {
             </Button>
           </div>
           <Table
+            rowSelection={rowSelection}
             loading={isLoading}
             columns={columns}
-            dataSource={isSuccess ? data : []}
+            dataSource={isSuccess ? data.map((v) => ({ ...v, key: v.id })) : []}
             scroll={{ x: 300, y: "calc(100vh - 200px)" }}
             pagination={false}
           />
