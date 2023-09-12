@@ -72,24 +72,6 @@ function BalanceReport({ data }: { data: BalanceReportType }) {
       children: data.worker_payment.toLocaleString(),
       span: 2,
     },
-    {
-      key: "workers_payable",
-      label: "Still Workers Payable",
-      children:
-        data.worker_commission +
-        data.adjustment +
-        data.bonus -
-        data.worker_payment,
-    },
-    {
-      key: "revenue",
-      label: "Total Revenue",
-      children: (
-        data.order_value -
-        data.worker_commission -
-        data.discount
-      ).toLocaleString(),
-    },
   ];
 
   return (

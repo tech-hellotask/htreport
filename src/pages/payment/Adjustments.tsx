@@ -10,6 +10,7 @@ import { dateSearchProps, useInputSearch } from "../../lib/searching.hooks";
 import { useState } from "react";
 import { localDateTime, objToQuery } from "../../utils/func";
 import { SorterResult } from "antd/es/table/interface";
+import WorkerMenu from "../../components/menu/worker";
 
 export default function PaymentAdjustment() {
   const { getColumnSearchProps } = useInputSearch();
@@ -47,6 +48,9 @@ export default function PaymentAdjustment() {
       dataIndex: "name",
       key: "name",
       ...getColumnSearchProps("name"),
+      render: (name: string, { worker_id }: AdjustmentType) => (
+        <WorkerMenu id={worker_id} name={name} children={name} center={false} />
+      ),
     },
     {
       title: "Worker Phone",

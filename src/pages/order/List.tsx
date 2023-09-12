@@ -21,7 +21,7 @@ export default function OrderList() {
     offset: 0,
     start_date: "",
     end_date: "",
-    order: "",
+    order: "desc",
     status: "",
     payment_status: "",
     id: "",

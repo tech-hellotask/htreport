@@ -52,7 +52,9 @@ const OrderDetailsCard = ({ order }: { order: OrderDetailsType }) => {
     {
       key: "10",
       label: "$ Refund",
-      children: order.refund.toString() + " TK",
+      children: `${order.refund_amount.toString()} TK (${
+        order.refund?.status || "-"
+      })`,
     },
     {
       key: "11",

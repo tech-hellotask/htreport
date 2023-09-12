@@ -259,6 +259,21 @@ export interface OrderDetailsPaymentType {
   };
 }
 
+export interface OrderDetailsRefundType {
+  id: number;
+  order_id: number;
+  amount: number;
+  payment_method: string;
+  account_no: string;
+  account_details: string;
+  remarks: string;
+  status: string;
+  tx_id: string;
+  customer_id: number;
+  refund_by: string;
+  created_at: string;
+  updated_at: string;
+}
 export interface OrderDetailsType {
   id: number;
   type: string;
@@ -284,9 +299,10 @@ export interface OrderDetailsType {
   vat: number;
   service_charge: number;
   final_price: number;
-  refund: number;
+  refund_amount: number;
   workers: OrderDetailsWorker[];
   payment: OrderDetailsPaymentType;
+  refund: OrderDetailsRefundType | null;
 }
 
 export interface OrderDetailsWorker {

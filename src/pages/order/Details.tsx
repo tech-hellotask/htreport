@@ -10,6 +10,7 @@ import WorkerCard from "../../components/order/details/WorkerCard";
 import OrderDetailsCard from "../../components/order/details/OrderDetailsCard";
 import CustomerPayment from "../../components/order/details/CustomerPayment";
 import CustomerInfo from "../../components/order/details/CustomerInfo";
+import RefundDetails from "../../components/order/details/RefundDetails";
 
 export default function OrderDetails({ id }: { id?: number }) {
   const { id: orderId } = useParams();
@@ -40,8 +41,10 @@ export default function OrderDetails({ id }: { id?: number }) {
             <WorkerCard key={worker.id} worker={worker} />
           ))}
         </Col>
-        <Col span={24} lg={10}>
+        <Col span={24} lg={10} className="scrollable custom-scroll">
           <CustomerInfo order={query.data} />
+          <br />
+          <RefundDetails refund={query.data.refund} />
           <br />
           <CustomerPayment payment={query.data.payment} />
         </Col>
@@ -53,5 +56,9 @@ export default function OrderDetails({ id }: { id?: number }) {
 const Wrapper = styled.div`
   .scrollable {
     height: calc(100vh - 100px);
+  }
+
+  .ant-card {
+    border: 1px solid #c1baba;
   }
 `;

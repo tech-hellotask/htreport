@@ -62,7 +62,7 @@ const WorkerCard = ({ worker }: { worker: OrderDetailsWorker }) => {
             />
           </Space>
         }
-        description={`Phone: ${worker.worker_phone}`}
+        description={`Created AT: ${localDateTime(worker.created_at)}`}
       />
       <Descriptions style={{ marginTop: "30px" }} items={items} />
     </Card>
