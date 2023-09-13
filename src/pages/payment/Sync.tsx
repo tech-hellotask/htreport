@@ -28,7 +28,7 @@ function FetchOrders() {
             format={"YYYY-MM-DD"}
             placeholder="Select Date"
             onChange={(_, dateString) => {
-              setDate(dateString);
+              setDate(new Date(dateString).toISOString());
             }}
             style={{ width: "100%" }}
             disabledDate={(current) => {

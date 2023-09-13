@@ -4,7 +4,8 @@ export const initAxiosSetup = () => {
   const token = localStorage.getItem("accessToken");
   setToken(token);
   axios.defaults.baseURL =
-    import.meta.env.VITE_GO_SERVER_URL || "http://localhost:3000";
+    import.meta.env.VITE_GO_SERVER_URL ||
+    "https://htreport.hellotask.app/api/v1";
 };
 
 export const setToken = (token: string | undefined) => {
