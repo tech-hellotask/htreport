@@ -55,12 +55,6 @@ function BalanceReport({ data }: { data: BalanceReportType }) {
       span: 2,
     },
     {
-      key: "bonus",
-      label: "Total Worker Bonus",
-      children: data.bonus.toLocaleString(),
-      span: 2,
-    },
-    {
       key: "worker_commission",
       label: "Total Worker Commission",
       children: data.worker_commission.toLocaleString(),

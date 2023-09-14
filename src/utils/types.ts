@@ -30,7 +30,6 @@ export interface PaymentWorkerListItemType {
   bkash: string;
   active_account: string;
   total_paid: number;
-  total_bonus: number;
   total_adjustment: number;
   total_commission: number;
   payable: number;
@@ -57,20 +56,8 @@ export interface AdjustmentType {
   added_by_id: number;
   created_at?: string;
   updated_at?: string;
-}
-
-export interface BonusType {
-  id: number;
-  worker_id: number;
-  worker_pid: number;
-  name: string;
-  phone: string;
-  amount: number;
-  remarks: string;
-  added_by: string;
-  added_by_id: number;
-  created_at: string;
-  updated_at?: string;
+  payment_id?: number;
+  payment_account_no?: string;
 }
 
 export interface OrderListItemType {
@@ -100,7 +87,10 @@ export interface WorkerOrderListItemType {
   status: string;
   order_status: string;
   is_backup: boolean;
-  is_paid: boolean;
+  payment_id: number;
+  payment_method: string;
+  payment_account_no: string;
+  payment_created_at: string;
   start_time: string;
   end_time: string;
   created_at: string;
@@ -165,7 +155,10 @@ export interface WorkerLedgerTypeItem {
   order_status?: string;
   order_type?: string;
   is_backup?: boolean;
-  is_paid?: boolean;
+  payment_id?: number;
+  payment_method?: string;
+  payment_account_no?: string;
+  payment_created_at?: string;
   payment_status?: string;
   status?: string;
   type: string;
@@ -211,7 +204,6 @@ export interface WorkerType {
   created_at: Date;
   active_account: string;
   total_paid: number;
-  total_bonus: number;
   total_adjustment: number;
   commission: number;
   payable: number;
@@ -310,7 +302,10 @@ export interface OrderDetailsWorker {
   worker_id: number;
   status: string;
   is_backup: boolean;
-  is_paid: boolean;
+  payment_id: number;
+  payment_account_no: string;
+  payment_created_at: string;
+  payment_method: string;
   worker_name: string;
   worker_phone: string;
   worker_image: string;
@@ -350,7 +345,6 @@ export type BalanceReportType = {
   discount: number;
   vat: number;
   adjustment: number;
-  bonus: number;
   worker_commission: number;
   worker_payment: number;
   customer_payment: number;

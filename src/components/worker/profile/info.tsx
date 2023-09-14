@@ -41,7 +41,6 @@ export default function WorkerProfileInfo({ worker }: { worker: WorkerType }) {
                 label="Total Order Amount"
                 value={worker.commission.toString()}
               />
-              <Item label="Total Bonus" value={worker.total_bonus.toString()} />
               <Item
                 label="Total Adjustment"
                 value={worker.total_adjustment.toString()}

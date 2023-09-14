@@ -9,7 +9,6 @@ import WorkerList from "./worker/List";
 import CreateService from "./service/Create";
 import PaymentWorkers from "./payment/Payable";
 import PaymentAdjustment from "./payment/Adjustments";
-import Bonus from "./payment/Bonus";
 import OrderList from "./order/List";
 import PaymentTransactions from "./payment/Transactions";
 import WorkerProfile from "./worker";
@@ -85,10 +84,6 @@ const routes = [
   {
     path: "/payment/adjustment",
     element: <PaymentAdjustment />,
-  },
-  {
-    path: "/payment/bonus",
-    element: <Bonus />,
   },
   {
     path: "/order/list",

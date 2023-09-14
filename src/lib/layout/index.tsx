@@ -5,7 +5,6 @@ import {
   DollarOutlined,
   FileAddOutlined,
   FileSearchOutlined,
-  GiftOutlined,
   HistoryOutlined,
   HomeOutlined,
   InsertRowAboveOutlined,
@@ -58,13 +57,6 @@ const menuItems = [
         label: "Adjustment",
         link: "/payment/adjustment",
         title: "Payment > Adjustment",
-      },
-      {
-        key: "payment_bonus",
-        icon: <GiftOutlined />,
-        label: "Bonus",
-        link: "/payment/bonus",
-        title: "Payment > Worker Bonus",
       },
       {
         key: "payment_payable",

@@ -24,21 +24,37 @@ const WorkerCard = ({ worker }: { worker: OrderDetailsWorker }) => {
       key: "6",
       label: "Commission",
       children: worker.commission,
+      span: 2,
     },
     {
       key: "8",
       label: "Status",
       children: worker.status,
+      span: 2,
     },
     {
       key: "2",
       label: "Is Backup",
-      children: worker.is_backup ? <Tag color="black">Backup</Tag> : "No",
+      children: <Tag color="black">{worker.is_backup ? "Backup" : "No"}</Tag>,
+      span: 2,
     },
     {
       key: "3",
-      label: "Payment Status",
-      children: worker.is_paid ? <Tag color="black">Paid</Tag> : "Unpaid",
+      label: "Payment",
+      children: (
+        <div>
+          <div>Status: {worker.payment_id > 0 ? "Paid" : "Unpaid"} </div>
+          {worker.payment_id > 0 && (
+            <>
+              <div>Payment ID: {worker.payment_id}</div>
+              <div>Account No: {worker.payment_account_no}</div>
+              <div>Method: {worker.payment_method}</div>
+              <div>Paid At: {localDateTime(worker.payment_created_at)}</div>
+            </>
+          )}
+        </div>
+      ),
+      span: 2,
     },
   ];
 

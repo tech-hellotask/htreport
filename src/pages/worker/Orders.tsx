@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Table, Tag } from "antd";
 import {
   ListResponse,
-  OrderListItemType,
+  WorkerOrderListItemType,
   orderColors,
 } from "../../utils/types";
 import { ErrorAlert } from "../../lib/Alerts";
@@ -33,7 +33,7 @@ export default function WorkerOrders({ id }: { id?: string | number }) {
     id = Number(workerId);
   }
   const { isSuccess, data, isLoading, isError, error } = useQuery<
-    ListResponse<OrderListItemType>,
+    ListResponse<WorkerOrderListItemType>,
     CustomError
   >({
     queryKey: [`/worker/${id}/orders?${objToQuery(params)}`],
@@ -128,12 +128,12 @@ export default function WorkerOrders({ id }: { id?: string | number }) {
           },
           {
             title: "Worker Payment",
-            dataIndex: "is_paid",
-            key: "is_paid",
-            render: (is_paid: boolean) => {
+            dataIndex: "payment_id",
+            key: "payment_id",
+            render: (id: number) => {
               return (
-                <Tag color={is_paid ? "green" : "red"}>
-                  {is_paid ? "Paid" : "Unpaid"}
+                <Tag color={id > 0 ? "green" : "red"}>
+                  {id > 0 ? "Paid" : "Unpaid"}
                 </Tag>
               );
             },
@@ -148,7 +148,7 @@ export default function WorkerOrders({ id }: { id?: string | number }) {
         onChange={(
           pagination,
           filters,
-          sorter: SorterResult<OrderListItemType>
+          sorter: SorterResult<WorkerOrderListItemType>
         ) => {
           setParams((prev) => {
             const temp = { ...prev };

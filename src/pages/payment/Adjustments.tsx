@@ -75,6 +75,22 @@ export default function PaymentAdjustment() {
       dataIndex: "added_by",
       key: "added_by",
     },
+    {
+      title: "Payment",
+      dataIndex: "payment_id",
+      key: "payment_id",
+      render: (id, { payment_account_no }: AdjustmentType) => {
+        return id > 0 ? (
+          <>
+            <div>Payment Status: Paid</div>
+            <div>Payment ID: {id}</div>
+            <div>Account No: {payment_account_no}</div>
+          </>
+        ) : (
+          <div>Payment Status: Unpaid</div>
+        );
+      },
+    },
   ];
 
   return (

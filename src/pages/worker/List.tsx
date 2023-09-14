@@ -125,13 +125,6 @@ export default function WorkerList() {
       render: (amount: number = 0) => amount.toFixed(0),
     },
     {
-      title: "Total Bonus",
-      dataIndex: "total_bonus",
-      key: "total_bonus",
-      width: "100px",
-      render: (bonus: number = 0) => bonus.toFixed(0),
-    },
-    {
       title: "Adjustment",
       dataIndex: "total_adjustment",
       key: "total_adjustment",

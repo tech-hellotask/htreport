@@ -58,10 +58,20 @@ export default function WorkerLedger({ id }: { id?: string | number }) {
         status,
         order_status,
         is_backup,
-        is_paid,
+        payment_id,
+        payment_method,
+        payment_created_at,
+        payment_account_no,
+        type,
       }: WorkerLedgerTypeItem) => {
         return (
           <div>
+            {type === "Payment" && payment_id > 0 && (
+              <>
+                <div>ID: {payment_id}</div>
+                <div>Payment Method: {payment_method}</div>
+              </>
+            )}
             {account_no && (
               <div className="account_no">Account NO: {account_no}</div>
             )}
@@ -87,9 +97,17 @@ export default function WorkerLedger({ id }: { id?: string | number }) {
                 Is Backup: <Tag color="black">Backup</Tag>
               </div>
             )}
-            {!!is_paid && (
+            {payment_id != 0 && type == "Order" && (
               <div className="is_paid">
-                Is Paid: {is_paid ? "Paid" : "Unpaid"}
+                <div>
+                  <strong>Payment ID</strong>: {payment_id}
+                </div>
+                <div>
+                  <strong>Account No</strong>: {payment_account_no}
+                </div>
+                <div>
+                  <strong>Paid At</strong>: {localDateTime(payment_created_at)}
+                </div>
               </div>
             )}
           </div>
@@ -99,14 +117,21 @@ export default function WorkerLedger({ id }: { id?: string | number }) {
     {
       title: "Debit",
       key: "debit",
-      render: ({ amount, tx_type, is_delete }: WorkerLedgerTypeItem) =>
+      render: ({
+        amount,
+        tx_type,
+        is_delete,
+        payment_id,
+      }: WorkerLedgerTypeItem) =>
         tx_type === "debit" ? (
           is_delete ? (
             <Tag color="red">
               <del>{amount.toString()} BDT</del>
             </Tag>
           ) : (
-            <Tag color="green">{amount.toString()} BDT</Tag>
+            <Tag color={payment_id !== 0 ? "green" : "pink"}>
+              {amount.toString()} BDT
+            </Tag>
           )
         ) : (
           "-"
