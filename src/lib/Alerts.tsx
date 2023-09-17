@@ -2,7 +2,7 @@ import { Alert } from "antd";
 import { CustomError, axiosErrorMsg } from "../utils/errors";
 
 type ErrorAlertProps = {
-  isError: boolean;
+  isError?: boolean;
   error: CustomError | null;
   style?: React.CSSProperties;
   margin?: boolean;
@@ -10,7 +10,7 @@ type ErrorAlertProps = {
 };
 
 export function ErrorAlert({
-  isError,
+  isError = true,
   error,
   style,
   margin = true,

@@ -28,6 +28,7 @@ import CustomerList from "./customer/List";
 import ServiceList from "./service/List";
 import WorkerOrders from "./worker/Orders";
 import WorkerLedger from "./worker/Ledger";
+import ServiceDetails from "./service/Details";
 
 // axios default config
 initAxiosSetup();
@@ -108,6 +109,10 @@ const routes = [
   {
     path: "/service/list",
     element: <ServiceList />,
+  },
+  {
+    path: "/service/:id/details",
+    element: <ServiceDetails />,
   },
   {
     path: "/logs",

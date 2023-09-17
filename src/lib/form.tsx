@@ -30,7 +30,7 @@ export function FormItem({
   );
 
   if (col) {
-    <Col span={24 / col}>{component}</Col>;
+    return <Col span={24 / col}>{component}</Col>;
   }
 
   return component;

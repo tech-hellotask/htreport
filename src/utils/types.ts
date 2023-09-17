@@ -378,3 +378,55 @@ export const orderColors = {
   Completed: "green",
   Rejected: "red",
 };
+
+export interface ServiceDetailsType {
+  details: string;
+  discounts?: ServiceDiscount[];
+  hour_per_work: number;
+  hourly_rate: number;
+  id: number;
+  is_active: boolean;
+  name: string;
+  requirements?: ServiceRequirementType[];
+  service_charge_amount: number;
+  service_charge_type: string;
+  total_holidays: number;
+  work_days: number;
+  worker_category_id: number;
+  worker_category: string;
+  worker_commission_amount: number;
+  worker_commission_type: string;
+}
+
+export interface ServiceDiscount {
+  created_at: string;
+  discount_amount: number;
+  discount_type: string;
+  discount_validity: DiscountValidity;
+  id: number;
+  service_id: number;
+  updated_at: string;
+}
+
+export interface DiscountValidity {
+  time: string;
+  valid: boolean;
+}
+
+export interface ServiceRequirementType {
+  id: number;
+  is_required: boolean;
+  label: string;
+  name: string;
+  options?: ServiceRequirementOption[];
+  type: string;
+}
+
+export interface ServiceRequirementOption {
+  amount: number;
+  amount_type: string;
+  id: number;
+  is_default: boolean;
+  label: string;
+  value: string;
+}
