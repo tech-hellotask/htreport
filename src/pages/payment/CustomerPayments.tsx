@@ -87,7 +87,7 @@ export default function CustomerPayments() {
     ListResponse<CustomerPaymentListItem>,
     CustomError
   >({
-    queryKey: [`/customer-payment?${objToQuery(params)}`],
+    queryKey: [`/customer-payments?${objToQuery(params)}`],
     queryFn: fetchCustomerPayments,
   });
 
