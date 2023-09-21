@@ -1,42 +1,48 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Form, Input, Button, Modal, message } from "antd";
+import { Form, Input, Button, Modal } from "antd";
 import { useState } from "react";
 import { FormItem } from "../../lib/form";
 import { useMutation } from "@tanstack/react-query";
-import { createRole } from "../../net/role";
+import { createRoleComponent } from "../../net/role";
 import { ErrorAlert } from "../../lib/Alerts";
 import { CustomError } from "../../utils/errors";
 
-export type RoleInputs = {
+export type RoleComponentInputs = {
+  tag: string;
   name: string;
+  key_name: string;
 };
 
-export default function CreateUserRole() {
+export default function CreateRoleComponent({
+  onCreate,
+}: {
+  onCreate: () => void;
+}) {
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm();
-  const mutation = useMutation(createRole, {
+  const mutation = useMutation(createRoleComponent, {
     onSuccess: () => {
       setOpen(false);
       form.resetFields();
-      message.success("Role created successfully");
+      onCreate();
     },
   });
 
-  const onFinish = (values: RoleInputs) => {
+  const onFinish = (values: RoleComponentInputs) => {
     mutation.mutate(values);
   };
 
   return (
     <div>
       <Button
-        type="primary"
         onClick={() => setOpen(true)}
+        type="primary"
         icon={<PlusOutlined />}
       >
-        Add New Role
+        Add Component
       </Button>
       <Modal
-        title="Add New Role"
+        title="Add New Component"
         centered
         open={open}
         onOk={() => setOpen(false)}
@@ -47,7 +53,6 @@ export default function CreateUserRole() {
       >
         <Form
           form={form}
-          name="signup"
           scrollToFirstError
           key="a"
           onFinish={onFinish}
@@ -56,9 +61,21 @@ export default function CreateUserRole() {
         >
           <ErrorAlert
             error={mutation.error as CustomError}
-            isError={mutation.isError}
             margin={true}
+            isError={mutation.isError}
           />
+          <FormItem
+            name="tag"
+            label="Section Name"
+            rules={[
+              {
+                required: true,
+                message: "Please input section name!",
+              },
+            ]}
+          >
+            <Input placeholder="ex: Payment" />
+          </FormItem>
           <FormItem
             name="name"
             label="Name"
@@ -70,6 +87,18 @@ export default function CreateUserRole() {
             ]}
           >
             <Input placeholder="Name" />
+          </FormItem>
+          <FormItem
+            name="key_name"
+            label="Key Name (Unique)"
+            rules={[
+              {
+                required: true,
+                message: "Please input key name!",
+              },
+            ]}
+          >
+            <Input placeholder="example_list" />
           </FormItem>
           <Form.Item>
             <Button

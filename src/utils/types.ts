@@ -147,6 +147,21 @@ export interface RoleType {
   created_at: string;
 }
 
+export interface RoleComponentAccessType {
+  id: number;
+  role_id: number;
+  role: string;
+}
+
+export interface RoleComponentType {
+  id: number;
+  name: string;
+  key_name: string;
+  tag: string;
+  created_at: string;
+  access: RoleComponentAccessType[];
+}
+
 export interface WorkerLedgerTypeItem {
   amount: number;
   remarks?: string;

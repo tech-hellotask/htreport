@@ -1,42 +1,54 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Form, Input, Button, Modal, message } from "antd";
+import { Form, Button, Modal, Select } from "antd";
 import { useState } from "react";
 import { FormItem } from "../../lib/form";
 import { useMutation } from "@tanstack/react-query";
-import { createRole } from "../../net/role";
+import { createRoleAccess } from "../../net/role";
 import { ErrorAlert } from "../../lib/Alerts";
 import { CustomError } from "../../utils/errors";
+import { RoleType } from "../../utils/types";
 
-export type RoleInputs = {
-  name: string;
+export type RoleAccessInputs = {
+  role_id: number;
+  component_id: number;
 };
 
-export default function CreateUserRole() {
+export default function CreateRoleAccess({
+  onCreate,
+  roles,
+  itemId,
+}: {
+  onCreate: () => void;
+  roles: RoleType[];
+  itemId: number;
+}) {
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm();
-  const mutation = useMutation(createRole, {
+  const mutation = useMutation(createRoleAccess, {
     onSuccess: () => {
       setOpen(false);
       form.resetFields();
-      message.success("Role created successfully");
+      onCreate();
     },
   });
 
-  const onFinish = (values: RoleInputs) => {
-    mutation.mutate(values);
+  const onFinish = (values: RoleAccessInputs) => {
+    mutation.mutate({
+      role_id: values.role_id,
+      component_id: itemId,
+    });
   };
 
   return (
     <div>
       <Button
         type="primary"
-        onClick={() => setOpen(true)}
+        size="small"
         icon={<PlusOutlined />}
-      >
-        Add New Role
-      </Button>
+        onClick={() => setOpen(true)}
+      />
       <Modal
-        title="Add New Role"
+        title="Add New Component"
         centered
         open={open}
         onOk={() => setOpen(false)}
@@ -47,7 +59,6 @@ export default function CreateUserRole() {
       >
         <Form
           form={form}
-          name="signup"
           scrollToFirstError
           key="a"
           onFinish={onFinish}
@@ -56,20 +67,26 @@ export default function CreateUserRole() {
         >
           <ErrorAlert
             error={mutation.error as CustomError}
-            isError={mutation.isError}
             margin={true}
+            isError={mutation.isError}
           />
           <FormItem
-            name="name"
-            label="Name"
+            name="role_id"
+            label="Role"
             rules={[
               {
                 required: true,
-                message: "Please input name!",
+                message: "Please select role",
               },
             ]}
           >
-            <Input placeholder="Name" />
+            <Select placeholder="Select role">
+              {roles?.map((role) => (
+                <Select.Option key={role.id} value={role.id}>
+                  {role.name}
+                </Select.Option>
+              ))}
+            </Select>
           </FormItem>
           <Form.Item>
             <Button

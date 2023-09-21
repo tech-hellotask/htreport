@@ -15,7 +15,8 @@ import { FormItem } from "../../lib/form";
 import { FileType, RoleType } from "../../utils/types";
 import { useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { createAdmin, fetchRoles } from "../../net/admin";
+import { createAdmin } from "../../net/admin";
+import { fetchRoles } from "../../net/role";
 
 export type UserInputs = {
   username: string;

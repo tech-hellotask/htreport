@@ -29,6 +29,7 @@ import ServiceList from "./service/List";
 import WorkerOrders from "./worker/Orders";
 import WorkerLedger from "./worker/Ledger";
 import ServiceDetails from "./service/Details";
+import RoleSettings from "./role/Settings";
 
 // axios default config
 initAxiosSetup();
@@ -41,6 +42,10 @@ const routes = [
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/role/settings",
+    element: <RoleSettings />,
   },
   {
     path: "/users",
